@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
-import frc.robot.commands.Drive.driveToDistance;
-import frc.robot.commands.navX.zeroNavXYaw;
 import frc.robot.commands.navX.zeroNavxDisplacement;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -60,10 +59,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    rBottom.onTrue(new zeroNavXYaw());
+    rBottom.onTrue(new RunCommand(drivetrain::zeroGyroscope));
     rOutside.onTrue(new zeroNavxDisplacement());
     rTrigger.whileTrue(new DriveToRelativeDisplacement(drivetrain, 1, 0));
-    rInside.whileTrue(new driveToDistance(drivetrain, 1, 1));
   }
 
   public Command getAutonomousCommand() {

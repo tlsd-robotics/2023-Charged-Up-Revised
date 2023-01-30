@@ -3,7 +3,6 @@ package frc.robot.commands.Drive;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.navX;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -13,24 +12,25 @@ public class DefaultDriveCommand extends CommandBase {
 //Similar to the DrivetrainSubsysem, I do not know exactly how this works so I will try my best to decipher it
 
   //Declares different varibles and names for objects
-    private final DrivetrainSubsystem m_drivetrainSubsystem;
-
     private final DoubleSupplier m_translationXSupplier;
     private final DoubleSupplier m_translationYSupplier;
     private final DoubleSupplier m_rotationSupplier;
 
+    private final DrivetrainSubsystem drivetrain;
+
   //This command takes in the parameters for a drivetrain, X Supplier, y Y Supplier, and Rotation(Z axis)Supplier. this. pretty much means it will use the parameter values
   //in the command
-    public DefaultDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
+    public DefaultDriveCommand(DrivetrainSubsystem Drivetrain,
                                DoubleSupplier translationXSupplier,
                                DoubleSupplier translationYSupplier,
                                DoubleSupplier rotationSupplier) {
-        this.m_drivetrainSubsystem = drivetrainSubsystem;
+
+        this.drivetrain = Drivetrain;
         this.m_translationXSupplier = translationXSupplier;
         this.m_translationYSupplier = translationYSupplier;
         this.m_rotationSupplier = rotationSupplier;
 
-        addRequirements(drivetrainSubsystem);
+        addRequirements(drivetrain);
     }
 
     @Override
@@ -45,18 +45,18 @@ public class DefaultDriveCommand extends CommandBase {
       and directly plugging joystick values into it without the need of a command at all. Regardless, it gets the the x,y,z values along with the current hyroscope rotation, and the...
       fromFieldRelativeSpeeds should do the rest to figure out how to run the motors properly. Take everything I am saying with a grain of salt I am just trying to understand this. 
       */
-        m_drivetrainSubsystem.drive(
+        drivetrain.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         m_translationXSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND / Constants.METERS_PER_SECOND_DIVIDED,
                         m_translationYSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND / Constants.METERS_PER_SECOND_DIVIDED,
                         m_rotationSupplier.getAsDouble() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / (Constants.METERS_PER_SECOND_DIVIDED * 2),
-                        navX.navX.getRotation2d()
+                        drivetrain.getRotation()
                 )
         );
     }
 //When Command ends, set motors to zero so it doesn't drive off into the sunset forever.
     @Override
     public void end(boolean interrupted) {
-        m_drivetrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
+        drivetrain.drive(new ChassisSpeeds(0.0, 0.0, 0.0));
     }
 }
