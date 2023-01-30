@@ -38,17 +38,13 @@ public final class Constants {
   }
     
 
-    public class limelightConstants {
-      public static final int LED_ON = 3;
-      public static final int LED_OFF = 1;
-      public static final int TARGET_PIPELINE = 0;
-      public static final int DEFAULT_PIPELINE = 0;
-      public static final int DRIVE_PIPELINE = 2;
+  public class limelightConstants {
+    public static final int LED_ON = 3;
+    public static final int LED_OFF = 1;
+    public static final int REFLECTIVE_PIPELINE = 0;
+    public static final int DEFAULT_PIPELINE = 1;
+    public static final int APRILTAG_PIPELINE = 2;
     }
-    
-  // Value of motor divided by speed.
-  // Eg.  / 2
-  public static int METERS_PER_SECOND_SCALING_FACTOR = 1;
 
 
   /* 

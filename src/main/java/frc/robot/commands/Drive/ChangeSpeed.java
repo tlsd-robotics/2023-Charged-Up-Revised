@@ -5,7 +5,7 @@
 package frc.robot.commands.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class ChangeSpeed extends CommandBase {
   boolean bDone = false;
@@ -18,10 +18,10 @@ public class ChangeSpeed extends CommandBase {
   @Override
   public void initialize() {
     bDone = false;
-    if(Constants.METERS_PER_SECOND_SCALING_FACTOR == 1){
-      Constants.METERS_PER_SECOND_SCALING_FACTOR = 2;
+    if(DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR == 1){
+      DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR = 2;
     }else{
-      Constants.METERS_PER_SECOND_SCALING_FACTOR = 1;
+      DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR = 1;
     }
   }
 

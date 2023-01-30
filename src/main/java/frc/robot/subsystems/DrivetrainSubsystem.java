@@ -56,6 +56,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   //This varible represents the MAX_VOLTAGE the motors will use when operating. Lower means slower, but may help with brownouts
   public static final double MAX_VOLTAGE = 12.0;
 
+  public static float METERS_PER_SECOND_SCALING_FACTOR = 1;
+
   //Calcuates Max Velocity using Motor RPM / 60. Drive Reduction is found from the Gear Ratios from the Swerve Modules. Then gets circumfrence of wheels using wheel diameter and pi
   public final static double MAX_VELOCITY_METERS_PER_SECOND = 5676.0 / 60.0 * 
           SdsModuleConfigurations.MK4_L2.getDriveReduction() *
