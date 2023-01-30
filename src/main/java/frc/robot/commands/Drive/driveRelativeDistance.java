@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Drive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -55,9 +56,9 @@ public class DriveRelativeDistance extends CommandBase {
   public void execute() {
 
     drivetrain.drive(new ChassisSpeeds(
-      pidX.calculate(drivetrain.getPose2d().getX(), initialX + valX), 
-      pidY.calculate(drivetrain.getPose2d().getY(), initialY + valY), 
-      pidZ.calculate(drivetrain.getRotation().getDegrees(), initialZ + valZ)
+      MathUtil.clamp(pidX.calculate(drivetrain.getPose2d().getX(), initialX + valX), DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * -1, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
+      MathUtil.clamp(pidY.calculate(drivetrain.getPose2d().getY(), initialY + valY), DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * -1, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
+      MathUtil.clamp(pidZ.calculate(drivetrain.getRotation().getDegrees(), initialZ + valZ), DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * -1, DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
     ));
   }
 
