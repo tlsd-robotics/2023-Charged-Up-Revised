@@ -13,8 +13,8 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class DriveRelativeDistance extends CommandBase {
   DrivetrainSubsystem drivetrain;
 
-  private final double toleranceDistance = .1;
-  private final double toleranceAngle = 1;
+  private final double TOLERANCE_DISTANCE = .1;
+  private final double TOLERANCE_ANGLE = 1;
 
   private double valX;
   private double valY;
@@ -41,9 +41,9 @@ public class DriveRelativeDistance extends CommandBase {
   @Override
   public void initialize() {
 
-    pidX.setTolerance(toleranceDistance);
-    pidY.setTolerance(toleranceDistance);
-    pidZ.setTolerance(toleranceAngle);
+    pidX.setTolerance(TOLERANCE_DISTANCE);
+    pidY.setTolerance(TOLERANCE_DISTANCE);
+    pidZ.setTolerance(TOLERANCE_ANGLE);
 
     initialX = drivetrain.getPose2d().getX();
     initialY = drivetrain.getPose2d().getY();
@@ -56,9 +56,9 @@ public class DriveRelativeDistance extends CommandBase {
   public void execute() {
 
     drivetrain.drive(new ChassisSpeeds(
-      MathUtil.clamp(pidX.calculate(drivetrain.getPose2d().getX(), initialX + valX), DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * -1, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
-      MathUtil.clamp(pidY.calculate(drivetrain.getPose2d().getY(), initialY + valY), DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * -1, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
-      MathUtil.clamp(pidZ.calculate(drivetrain.getRotation().getDegrees(), initialZ + valZ), DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * -1, DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+      MathUtil.clamp(pidX.calculate(drivetrain.getPose2d().getX(), initialX + valX), -DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
+      MathUtil.clamp(pidY.calculate(drivetrain.getPose2d().getY(), initialY + valY), -DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
+      MathUtil.clamp(pidZ.calculate(drivetrain.getRotation().getDegrees(), initialZ + valZ), -DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
     ));
   }
 

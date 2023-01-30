@@ -47,9 +47,9 @@ public class DefaultDriveCommand extends CommandBase {
       */
         drivetrain.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                        m_translationXSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND / Constants.METERS_PER_SECOND_DIVIDED,
-                        m_translationYSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND / Constants.METERS_PER_SECOND_DIVIDED,
-                        m_rotationSupplier.getAsDouble() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / (Constants.METERS_PER_SECOND_DIVIDED * 2),
+                        m_translationXSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.METERS_PER_SECOND_SCALING_FACTOR,
+                        m_translationYSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * Constants.METERS_PER_SECOND_SCALING_FACTOR,
+                        m_rotationSupplier.getAsDouble() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * (Constants.METERS_PER_SECOND_SCALING_FACTOR * 2),
                         drivetrain.getRotation()
                 )
         );

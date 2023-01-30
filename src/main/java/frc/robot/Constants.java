@@ -1,8 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
 /*
  * It seems to me that the vast majority of the items in here could be placed
  * in the subystems they are relevant to, therefore decrease the complexity of this
@@ -49,12 +46,9 @@ public final class Constants {
       public static final int DRIVE_PIPELINE = 2;
     }
     
-    //compressor
-    public static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
-    
   // Value of motor divided by speed.
   // Eg.  / 2
-  public static int METERS_PER_SECOND_DIVIDED = 1;
+  public static int METERS_PER_SECOND_SCALING_FACTOR = 1;
 
 
   /* 

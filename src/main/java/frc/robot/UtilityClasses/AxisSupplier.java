@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.UtilityClasses;
 
 import java.util.function.DoubleSupplier;
 
@@ -17,7 +17,7 @@ public class AxisSupplier implements DoubleSupplier {
     boolean inverted;
 
     //Creates class for an axis that can be passed to commands. Note: Deadzones are applied before squaring.
-    AxisSupplier(GenericHID HIDController, int AxisID, boolean Squared, double Deadzone, boolean Inverted) {
+    public AxisSupplier(GenericHID HIDController, int AxisID, boolean Squared, double Deadzone, boolean Inverted) {
         hidController = HIDController;
         axisId = AxisID;
         squared = Squared;

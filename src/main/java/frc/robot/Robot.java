@@ -5,18 +5,23 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Autonomous.DoNothing;
 
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  public static SendableChooser<Command> sendablechooser = new SendableChooser<Command>();
+  private Command m_autonomousCommand;
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+    RobotContainer m_robotContainer = new RobotContainer();
+
+    sendablechooser.setDefaultOption("Do nothing", new DoNothing());
+    SmartDashboard.putData("Autonomous", sendablechooser);
   }
 
   @Override
@@ -37,7 +42,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = sendablechooser.getSelected();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
