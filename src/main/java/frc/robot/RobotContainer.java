@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.controllerConstants;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
 import frc.robot.commands.navX.zeroNavxDisplacement;
@@ -18,31 +19,31 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
 
   //Joystick - Creates joystick objects using the ID number from constants and the Joystick class 
-  public final Joystick leftJoy = new Joystick(Constants.leftJoystick);
-  public final static Joystick rightJoy = new Joystick(Constants.rightJoystick);
-  public final Joystick gamepad = new Joystick(Constants.gamepad);
+  public final Joystick leftJoy = new Joystick(controllerConstants.leftJoystick);
+  public final static Joystick rightJoy = new Joystick(controllerConstants.rightJoystick);
+  public final Joystick gamepad = new Joystick(controllerConstants.gamepad);
 
   //Joystick button - Declares the names for each of the joystick buttons 
-  public JoystickButton rTrigger = new JoystickButton(rightJoy, Constants.JoystickTriggerR);
-  public JoystickButton lTrigger = new JoystickButton(leftJoy, Constants.JoystickTriggerL);
-  public JoystickButton lInside = new JoystickButton(leftJoy, Constants.JoystickLeftInside);
-  public JoystickButton rInside = new JoystickButton(rightJoy, Constants.JoystickRightInside);
-  public JoystickButton lOutside = new JoystickButton(leftJoy, Constants.JoystickLeftOutside);
-  public JoystickButton rOutside = new JoystickButton(rightJoy, Constants.JoystickRightOutside);
-  public JoystickButton rBottom = new JoystickButton(rightJoy, Constants.JoystickRightBottom);
-  public JoystickButton lBottom = new JoystickButton(leftJoy, Constants.JoystickLeftBottom);
+  public JoystickButton rTrigger = new JoystickButton(rightJoy, controllerConstants.JoystickTriggerR);
+  public JoystickButton lTrigger = new JoystickButton(leftJoy, controllerConstants.JoystickTriggerL);
+  public JoystickButton lInside = new JoystickButton(leftJoy, controllerConstants.JoystickLeftInside);
+  public JoystickButton rInside = new JoystickButton(rightJoy, controllerConstants.JoystickRightInside);
+  public JoystickButton lOutside = new JoystickButton(leftJoy, controllerConstants.JoystickLeftOutside);
+  public JoystickButton rOutside = new JoystickButton(rightJoy, controllerConstants.JoystickRightOutside);
+  public JoystickButton rBottom = new JoystickButton(rightJoy, controllerConstants.JoystickRightBottom);
+  public JoystickButton lBottom = new JoystickButton(leftJoy, controllerConstants.JoystickLeftBottom);
 
   //GamePad - Declares the names for each of the gamepad buttons
-  public JoystickButton gamepadX = new JoystickButton(gamepad, Constants.GamepadX);
-  public JoystickButton gamepadA = new JoystickButton(gamepad, Constants.GamepadA);
-  public JoystickButton gamepadY = new JoystickButton(gamepad, Constants.GamepadY);
-  public JoystickButton gamepadB = new JoystickButton(gamepad, Constants.GamepadB);
-  //public JoystickButton gamepadStart = new JoystickButton(gamepad, Constants.GamepadStart); Not in Constants
-  public JoystickButton gamepadSelect  = new JoystickButton(gamepad, Constants.GamepadSelect);
-  public JoystickButton gamepadL1 = new JoystickButton(gamepad, Constants.GamepadL1);
-  public JoystickButton gamepadR1 = new JoystickButton(gamepad, Constants.GamepadR1);
-  public JoystickButton gamepadR3 = new JoystickButton(gamepad, Constants.GamepadR3);
-  public JoystickButton gamepadL3 = new JoystickButton(gamepad, Constants.GamepadL3);
+  public JoystickButton gamepadX = new JoystickButton(gamepad, controllerConstants.GamepadX);
+  public JoystickButton gamepadA = new JoystickButton(gamepad, controllerConstants.GamepadA);
+  public JoystickButton gamepadY = new JoystickButton(gamepad, controllerConstants.GamepadY);
+  public JoystickButton gamepadB = new JoystickButton(gamepad, controllerConstants.GamepadB);
+  //public JoystickButton gamepadStart = new JoystickButton(gamepad, controllerConstants.GamepadStart); Not in controllerConstants
+  public JoystickButton gamepadSelect  = new JoystickButton(gamepad, controllerConstants.GamepadSelect);
+  public JoystickButton gamepadL1 = new JoystickButton(gamepad, controllerConstants.GamepadL1);
+  public JoystickButton gamepadR1 = new JoystickButton(gamepad, controllerConstants.GamepadR1);
+  public JoystickButton gamepadR3 = new JoystickButton(gamepad, controllerConstants.GamepadR3);
+  public JoystickButton gamepadL3 = new JoystickButton(gamepad, controllerConstants.GamepadL3);
 
   //create axes
   AxisSupplier rightYAxis = new AxisSupplier(rightJoy, AxisType.kX.value, true, 0.05, false);

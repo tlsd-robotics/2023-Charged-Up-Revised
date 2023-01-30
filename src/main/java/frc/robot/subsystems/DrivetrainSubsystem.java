@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -170,8 +168,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     //TODO: Consider Swerve Optimization - 
-    //https://www.chiefdelphi.com/t/some-questions-about-the-wpis-official-swerve-code/395386
-
+    
     odometry.update(
                 Rotation2d.fromDegrees(navX.navX.getFusedHeading()),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
@@ -189,6 +186,14 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   public Rotation2d getRotation() {
     return odometry.getPoseMeters().getRotation();
+}
+
+public SwerveDriveOdometry getOdometry() {
+    return odometry;
+}
+
+public Pose2d getPose2d() {
+    return odometry.getPoseMeters();
 }
 
 }

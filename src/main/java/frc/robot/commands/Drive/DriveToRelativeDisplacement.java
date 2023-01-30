@@ -64,11 +64,8 @@ public class DriveToRelativeDisplacement extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    /*
     //if x and y are within tolerance, return true;
     return (((x - xi) - xc <= tolerance) && ((x - xi) - xc >= 0-tolerance)) &&
            (((y - yi) - yc <= tolerance) && ((y - yi) - yc >= 0-tolerance));
-    */
-    return pidX.atSetpoint() && pidY.atSetpoint();
   }
 }
