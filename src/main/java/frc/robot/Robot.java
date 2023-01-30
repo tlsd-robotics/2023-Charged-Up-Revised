@@ -19,6 +19,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     RobotContainer m_robotContainer = new RobotContainer();
+    m_robotContainer.removeNotUsedError();
 
     sendablechooser.setDefaultOption("Do nothing", new DoNothing());
     SmartDashboard.putData("Autonomous", sendablechooser);
