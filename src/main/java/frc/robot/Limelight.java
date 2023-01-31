@@ -3,19 +3,26 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.Constants.limelightConstants;
 
 public class Limelight {
 
-    private String networkTableName;
+  //============== Limelight Constants ================
+    public static final int LED_ON = 3;
+    public static final int LED_OFF = 1;
+    public static final int REFLECTIVE_PIPELINE = 0;
+    public static final int DEFAULT_PIPELINE = 1;
+    public static final int APRILTAG_PIPELINE = 2;
+  //===================================================
+
+
+  // Instance Variables
     private NetworkTable table;
     private NetworkTableEntry ledMode;
 
     // =================== Limelight Constructor ======================
     public Limelight(String NetworkTableName, int DefaultPipeline) {
-        this.networkTableName  = NetworkTableName;
 
-        this.table = NetworkTableInstance.getDefault().getTable(networkTableName);
+        this.table = NetworkTableInstance.getDefault().getTable(NetworkTableName);
         this.ledMode = table.getEntry("ledMode");
 
         setPipeline(DefaultPipeline);
@@ -26,7 +33,7 @@ public class Limelight {
     // =========================================================================
     // ======================= Create Lightlights here =========================
 
-    public static Limelight limelight1 = new Limelight("limelight", 0);
+    public static Limelight limelight1 = new Limelight("limelight", APRILTAG_PIPELINE);
 
 
     // ========================================================================
@@ -38,9 +45,17 @@ public class Limelight {
 
     public void setLedOn(boolean isOn) {
         if (isOn){
-          ledMode.setNumber(limelightConstants.LED_ON);
+          ledMode.setNumber(LED_ON);
         } else {
-          ledMode.setNumber(limelightConstants.LED_OFF);
+          ledMode.setNumber(LED_OFF);
+        }
+      }
+
+      public void togglePipeline() {
+        if (getPipelineInt() == APRILTAG_PIPELINE){
+          this.table.getEntry("pipeline").setNumber(REFLECTIVE_PIPELINE);
+        } else if (getPipelineInt() == REFLECTIVE_PIPELINE){
+          this.table.getEntry("pipeline").setNumber(APRILTAG_PIPELINE);
         }
       }
 
@@ -92,16 +107,26 @@ public class Limelight {
         return a;
     }
 
+    public Integer getPipelineInt(){
+      NetworkTableEntry pipeline = table.getEntry("pipeline");
+      Integer pipe = (int) pipeline.getDouble(0.0);
+      return pipe;
+  }
+
+  public NetworkTable getNetworkTable(Limelight limelight) {
+    return table;
+  }
+
     // =======================================================================
     // ======================= Enable Pipelines ==============================
 
     public void enableApriltagTargeting() {
         setLedOn(false);
-        setPipeline(limelightConstants.APRILTAG_PIPELINE);
+        setPipeline(APRILTAG_PIPELINE);
       }
       
       public void enableReflectionTargeting() {
-        setPipeline(limelightConstants.REFLECTIVE_PIPELINE);
+        setPipeline(REFLECTIVE_PIPELINE);
         setLedOn(true);
       }
 }

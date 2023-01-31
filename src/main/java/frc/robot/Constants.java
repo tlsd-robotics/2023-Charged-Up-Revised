@@ -1,51 +1,9 @@
 package frc.robot;
 
-/*
- * It seems to me that the vast majority of the items in here could be placed
- * in the subystems they are relevant to, therefore decrease the complexity of this
- * file.
- */
+// The constants file has been Depracted. All relevent values can be found in their respective files
 
-public final class Constants {
-//Constants are numbers that will not change, or if you do change them, it will make it easy to find since everything is here.
-  // If you use a number more than once for something, throw it in here to make your life a lot easier.
 
-  public class controllerConstants {
-    //Joystick - ID Values - Can be found in DriverStation under the USB tab
-    public static final int rightJoystick = 0;
-  	public static final int leftJoystick = 1;
-    //Joystick Buttons
-    public static final int JoystickTriggerR = 1;
-    public static final int JoystickTriggerL = 1;
-    public static final int JoystickLeftInside = 4;
-    public static final int JoystickRightInside = 3;
-    public static final int JoystickRightOutside = 4;
-    public static final int JoystickLeftOutside = 3;
-    public static final int JoystickRightBottom = 2;
-    public static final int JoystickLeftBottom = 2;
-    //Gamepad
-    public static final int gamepad = 3;
-    //Gamepad Buttons
-    public static final int GamepadA = 1;
-    public static final int GamepadB = 2;
-    public static final int GamepadX = 3;
-    public static final int GamepadY = 4;
-    public static final int GamepadL1 = 5;
-    public static final int GamepadR1 = 6;          
-    public static final int GamepadR3 = 9;
-    public static final int GamepadL3 = 10;
-    public static final int GamepadSelect = 8;
-  }
-    
-
-  public class limelightConstants {
-    public static final int LED_ON = 3;
-    public static final int LED_OFF = 1;
-    public static final int REFLECTIVE_PIPELINE = 0;
-    public static final int DEFAULT_PIPELINE = 1;
-    public static final int APRILTAG_PIPELINE = 2;
-    }
-
+public final class Constants {}
 
   /* 
   ==== Don't mind me, just storing some useful links here =====
@@ -54,5 +12,3 @@ public final class Constants {
   https://www.chiefdelphi.com/t/some-questions-about-the-wpis-official-swerve-code/395386
 
   */ 
-
-}
