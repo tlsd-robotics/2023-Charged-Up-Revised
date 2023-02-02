@@ -104,7 +104,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .withPosition(0, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L2)
     .withDriveMotor(MotorType.NEO, FRONT_LEFT_MODULE_DRIVE_MOTOR)
-    .withSteerMotor(MotorType.NEO, FRONT_LEFT_MODULE_STEER_ENCODER)
+    .withSteerMotor(MotorType.NEO, FRONT_LEFT_MODULE_STEER_MOTOR)
     .withSteerEncoderPort(FRONT_LEFT_MODULE_STEER_ENCODER)
     .withSteerOffset(FRONT_LEFT_MODULE_STEER_OFFSET)
     .build();
@@ -115,7 +115,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .withPosition(2, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L2)
     .withDriveMotor(MotorType.NEO, FRONT_RIGHT_MODULE_DRIVE_MOTOR)
-    .withSteerMotor(MotorType.NEO, FRONT_RIGHT_MODULE_STEER_ENCODER)
+    .withSteerMotor(MotorType.NEO, FRONT_RIGHT_MODULE_STEER_MOTOR)
     .withSteerEncoderPort(FRONT_RIGHT_MODULE_STEER_ENCODER)
     .withSteerOffset(FRONT_RIGHT_MODULE_STEER_OFFSET)
     .build();
@@ -126,7 +126,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             .withPosition(4, 0))
     .withGearRatio(SdsModuleConfigurations.MK4_L2)
     .withDriveMotor(MotorType.NEO, BACK_LEFT_MODULE_DRIVE_MOTOR)
-    .withSteerMotor(MotorType.NEO, BACK_LEFT_MODULE_STEER_ENCODER)
+    .withSteerMotor(MotorType.NEO, BACK_LEFT_MODULE_STEER_MOTOR)
     .withSteerEncoderPort(BACK_LEFT_MODULE_STEER_ENCODER)
     .withSteerOffset(BACK_LEFT_MODULE_STEER_OFFSET)
     .build();
