@@ -85,7 +85,7 @@ public class RobotContainer {
     //NOTE: Mapping is now done in DefualtDriveCommand
     drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, rightXAxis, rightYAxis, rightZAxis));
 
-    configureBindings();
+    configureBindings(); 
   }
 
   private void configureBindings() {
