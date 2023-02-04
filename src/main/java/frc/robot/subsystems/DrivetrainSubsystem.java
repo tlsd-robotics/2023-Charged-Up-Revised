@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
 import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
@@ -21,6 +22,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.navX;
 
@@ -99,10 +101,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // Define Drivetrain Modules
     frontLeftModule = new MkSwerveModuleBuilder()
-    .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+    .withLayout(tab.getLayout("Front Left Module", BuiltInLayouts.kList)
             .withSize(2, 4)
             .withPosition(0, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4_L2)
+    .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
     .withDriveMotor(MotorType.NEO, FRONT_LEFT_MODULE_DRIVE_MOTOR)
     .withSteerMotor(MotorType.NEO, FRONT_LEFT_MODULE_STEER_MOTOR)
     .withSteerEncoderPort(FRONT_LEFT_MODULE_STEER_ENCODER)
@@ -110,10 +112,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
     .build();
 
     frontRightModule = new MkSwerveModuleBuilder()
-    .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+    .withLayout(tab.getLayout("Front Right Module", BuiltInLayouts.kList)
             .withSize(2, 4)
             .withPosition(2, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4_L2)
+    .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
     .withDriveMotor(MotorType.NEO, FRONT_RIGHT_MODULE_DRIVE_MOTOR)
     .withSteerMotor(MotorType.NEO, FRONT_RIGHT_MODULE_STEER_MOTOR)
     .withSteerEncoderPort(FRONT_RIGHT_MODULE_STEER_ENCODER)
@@ -124,7 +126,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     .withLayout(tab.getLayout("Back Left Module", BuiltInLayouts.kList)
             .withSize(2, 4)
             .withPosition(4, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4_L2)
+    .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
     .withDriveMotor(MotorType.NEO, BACK_LEFT_MODULE_DRIVE_MOTOR)
     .withSteerMotor(MotorType.NEO, BACK_LEFT_MODULE_STEER_MOTOR)
     .withSteerEncoderPort(BACK_LEFT_MODULE_STEER_ENCODER)
@@ -135,7 +137,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     .withLayout(tab.getLayout("Back Right Module", BuiltInLayouts.kList)
             .withSize(2, 4)
             .withPosition(6, 0))
-    .withGearRatio(SdsModuleConfigurations.MK4_L2)
+    .withGearRatio(SdsModuleConfigurations.MK3_STANDARD)
     .withDriveMotor(MotorType.NEO, BACK_RIGHT_MODULE_DRIVE_MOTOR)
     .withSteerMotor(MotorType.NEO, BACK_RIGHT_MODULE_STEER_MOTOR)
     .withSteerEncoderPort(BACK_RIGHT_MODULE_STEER_ENCODER)
@@ -148,13 +150,23 @@ public class DrivetrainSubsystem extends SubsystemBase {
       new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
     );
 
-    tab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
+    tab.addNumber("Odometry Angle", () -> getOdometryRotation().getDegrees());
     tab.addNumber("Pose X", () -> odometry.getPoseMeters().getX());
     tab.addNumber("Pose Y", () -> odometry.getPoseMeters().getY());
 
+    CANSparkMax frontLeftMotor = (CANSparkMax) frontLeftModule.getDriveMotor();
+    CANSparkMax frontRightMotor = (CANSparkMax) frontRightModule.getDriveMotor();
+    CANSparkMax backLeftMotor = (CANSparkMax) backLeftModule.getDriveMotor();
+    CANSparkMax backRightMotor = (CANSparkMax) backRightModule.getDriveMotor();
+    
+    SmartDashboard.putBoolean("FL Drive Inverted", frontLeftMotor.getInverted());
+    SmartDashboard.putBoolean("FR Drive Inverted", frontRightMotor.getInverted());
+    SmartDashboard.putBoolean("BL Drive Inverted", backLeftMotor.getInverted());
+    SmartDashboard.putBoolean("BR Drive Inverted", backRightMotor.getInverted());
+
   }
 
-  public void zeroGyroscope() {
+  public void zeroOdometry() {
     odometry.resetPosition(
             Rotation2d.fromDegrees(navX.navX.getFusedHeading()),
             new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
@@ -186,7 +198,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   // =============== Getter Methods ======================
 
-  public Rotation2d getRotation() {
+  public Rotation2d getOdometryRotation() {
     return odometry.getPoseMeters().getRotation();
 }
 

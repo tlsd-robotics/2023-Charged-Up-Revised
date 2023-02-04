@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.UtilityClasses.AxisSupplier;
 import frc.robot.commands.Drive.DefaultDriveCommand;
+import frc.robot.commands.Drive.DriveRelativeDistance;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
 import frc.robot.commands.Limelight.AllignToTarget;
 import frc.robot.commands.Limelight.TogglePipeline;
@@ -73,8 +74,8 @@ public class RobotContainer {
   public JoystickButton gamepadL3 = new JoystickButton(gamepad, GamepadL3);
 
   //create axes
-  AxisSupplier rightYAxis = new AxisSupplier(rightJoy, AxisType.kX.value, true, 0.05, false);
-  AxisSupplier rightXAxis = new AxisSupplier(rightJoy, AxisType.kY.value, true, 0.05, false);
+  AxisSupplier rightYAxis = new AxisSupplier(rightJoy, AxisType.kX.value, true, 0.05, true);
+  AxisSupplier rightXAxis = new AxisSupplier(rightJoy, AxisType.kY.value, true, 0.05, true);
   AxisSupplier rightZAxis = new AxisSupplier(rightJoy, AxisType.kZ.value, true, 0.05, true);
 
   //Instantiate Subsystems
@@ -91,9 +92,9 @@ public class RobotContainer {
 
   // ======================= Button Commands ============================
   // Joysticks
-    rBottom.onTrue(new RunCommand(drivetrain::zeroGyroscope));
+    rBottom.onTrue(new RunCommand(drivetrain::zeroOdometry));
     rOutside.onTrue(new zeroNavxDisplacement());
-    rTrigger.whileTrue(new DriveToRelativeDisplacement(drivetrain, 1, 0));
+    rTrigger.whileTrue(new DriveRelativeDistance(drivetrain, 1.0, 0, 0));
   // Gamepad
     gamepadL1.whileTrue(new AllignToTarget(drivetrain, Limelight.limelight1));
     gamepadR1.onTrue(new TogglePipeline(Limelight.limelight1));

@@ -24,9 +24,9 @@ public class DriveRelativeDistance extends CommandBase {
   private double initialY;
   private double initialZ;
 
-  PIDController pidX = new PIDController(1.0, 0.0, 0.0);
-  PIDController pidY = new PIDController(1.0, 0.0, 0.0);
-  PIDController pidZ = new PIDController(1.0, 0.0, 0.0);
+  PIDController pidX = new PIDController(1.5, 0.0, 0.0);
+  PIDController pidY = new PIDController(1.5, 0.0, 0.0);
+  PIDController pidZ = new PIDController(1.5, 0.0, 0.0);
 
   public DriveRelativeDistance(DrivetrainSubsystem Drivetrain, double ValX, double ValY, double ValZ) {
     this.drivetrain = Drivetrain;
@@ -47,7 +47,7 @@ public class DriveRelativeDistance extends CommandBase {
 
     initialX = drivetrain.getPose2d().getX();
     initialY = drivetrain.getPose2d().getY();
-    initialZ = drivetrain.getRotation().getDegrees();
+    initialZ = drivetrain.getOdometryRotation().getDegrees();
 
   }
 
@@ -58,7 +58,7 @@ public class DriveRelativeDistance extends CommandBase {
     drivetrain.drive(new ChassisSpeeds(
       MathUtil.clamp(pidX.calculate(drivetrain.getPose2d().getX(), initialX + valX), -DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
       MathUtil.clamp(pidY.calculate(drivetrain.getPose2d().getY(), initialY + valY), -DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
-      MathUtil.clamp(pidZ.calculate(drivetrain.getRotation().getDegrees(), initialZ + valZ), -DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+      MathUtil.clamp(pidZ.calculate(drivetrain.getOdometryRotation().getDegrees(), initialZ + valZ), -DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
     ));
   }
 
