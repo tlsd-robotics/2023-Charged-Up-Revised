@@ -5,11 +5,17 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import java.nio.file.Path;
+import java.util.HashMap;
+
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.swervedrivespecialties.swervelib.MkSwerveModuleBuilder;
 import com.swervedrivespecialties.swervelib.MotorType;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -23,6 +29,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.navX;
 
@@ -209,5 +216,25 @@ public SwerveDriveOdometry getOdometry() {
 public Pose2d getPose2d() {
     return odometry.getPoseMeters();
 }
+
+//PATH FOLLOWING -------------------------------------------------------------------------
+
+//Creates a path following command given a path. This could be done outside of the subsystem every time a path command is desired.
+//The docs demonstrate a version that outputs module states via swerve kinematics requiring direct access to private drivetrain objects,
+//and therefore must be in the drivetrain subsystem. That is not the case here.
+Command getPathFollowingCommand(PathPlannerTrajectory Path) {
+        return new PPSwerveControllerCommand(
+                Path, //Takes a path, created with path planner
+                this::getPose2d, //Takes the current pose of the robot
+                new PIDController(0, 0, 0), //X          PID controllers for some part of the path following.
+                new PIDController(0, 0, 0), //Y          these will need to be tuned. Further research required.
+                new PIDController(0, 0, 0), //Rotation
+                this::drive, //Method that takes the generated chassis speeds and makes the robot do robot things. (Consumer<ChassisSpeeds>)
+                false, //Can automatically perform transformations on paths based on alliance color. Might be beneficial to enable later.
+                this //Command requires the drivetrain subsystem. This could cause confict later if we want to have events that require the drivetrain -
+        );           //such as loading a game piece - mid path.
+}
+
+//Pathplannerlib docs: https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Java-Usage 
 
 }
