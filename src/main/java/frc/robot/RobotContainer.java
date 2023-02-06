@@ -4,11 +4,18 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.UtilityClasses.AxisSupplier;
+import frc.robot.commands.Drive.BalancingCommand;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveRelativeDistance;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
@@ -73,6 +80,9 @@ public class RobotContainer {
   public JoystickButton gamepadR3 = new JoystickButton(gamepad, GamepadR3);
   public JoystickButton gamepadL3 = new JoystickButton(gamepad, GamepadL3);
 
+  //Event map for path following
+  HashMap <String, Command> eventMap = new HashMap();
+
   //create axes
   AxisSupplier rightYAxis = new AxisSupplier(rightJoy, AxisType.kX.value, true, 0.05, true);
   AxisSupplier rightXAxis = new AxisSupplier(rightJoy, AxisType.kY.value, true, 0.05, true);
@@ -86,6 +96,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new DefaultDriveCommand(drivetrain, rightXAxis, rightYAxis, rightZAxis));
 
     configureBindings(); 
+    configureEventMap();
   }
 
   private void configureBindings() {
@@ -100,6 +111,25 @@ public class RobotContainer {
     gamepadR1.onTrue(new TogglePipeline(Limelight.limelight1));
     
   }
+
+  //==================== Path Following Event Map ========================
+  private void configureEventMap() {
+    eventMap.put("BalancingCommand", new BalancingCommand(drivetrain));
+  }
+
+  //Factory for a command that executes a path group with events
+  //Path groups break up paths into sections between which events
+  //can be executed without conflict. This builds a command handling
+  //this logic.
+  public SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+    drivetrain::getPose2d,
+    drivetrain::zeroOdometry,
+    new PIDConstants(5.0, 0.0, 0.0),
+    new PIDConstants(0.5, 0.0, 0.0),
+    drivetrain::drive,
+    eventMap,
+    drivetrain
+  );
 
   public void removeNotUsedError() {
   }
