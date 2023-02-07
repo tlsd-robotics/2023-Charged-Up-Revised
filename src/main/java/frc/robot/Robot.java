@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.removeNotUsedError();
 
     sendablechooser.setDefaultOption("Do nothing", new DoNothing());
-    sendablechooser.addOption("Path Auto", m_robotContainer.autoBuilder.fullAuto(PathPlanner.loadPathGroup("TestPath", 4, 3)));
+    sendablechooser.addOption("Path Auto", m_robotContainer.autoBuilder.fullAuto(PathPlanner.loadPathGroup("longTestPath", 4, 3)));
     SmartDashboard.putData("Autonomous", sendablechooser);
   }
 

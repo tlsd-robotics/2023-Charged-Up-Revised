@@ -6,6 +6,7 @@ package frc.robot;
 
 import java.util.HashMap;
 
+import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
@@ -124,7 +125,7 @@ public class RobotContainer {
   public SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
     drivetrain::getPose2d,
     drivetrain::zeroOdometry,
-    new PIDConstants(5.0, 0.0, 0.0),
+    new PIDConstants(1.5, 0.0, 0.0),
     new PIDConstants(0.5, 0.0, 0.0),
     drivetrain::drive,
     eventMap,
