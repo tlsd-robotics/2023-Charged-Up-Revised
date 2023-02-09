@@ -195,6 +195,10 @@ public void zeroOdometry(Pose2d pose) { //This overload is necessary for pathpla
     currentSpeed = chassisSpeeds;
   }
 
+  public void driveFieldRelative(final ChassisSpeeds chassisSpeeds) {
+        currentSpeed = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, getOdometryRotation());
+  }
+
   @Override
   public void periodic() {
     //TODO: Consider Swerve Optimization - 

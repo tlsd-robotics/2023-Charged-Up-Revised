@@ -50,7 +50,7 @@ public class DefaultDriveCommand extends CommandBase {
                         m_translationXSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR,
                         m_translationYSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR,
                         m_rotationSupplier.getAsDouble() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * (DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR * 2),
-                        navX.navX.getRotation2d()
+                        drivetrain.getOdometryRotation()
                 )
         );
     }

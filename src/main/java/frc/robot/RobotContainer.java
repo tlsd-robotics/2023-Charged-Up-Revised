@@ -23,6 +23,7 @@ import frc.robot.commands.Drive.DriveToRelativeDisplacement;
 import frc.robot.commands.Limelight.AllignToTarget;
 import frc.robot.commands.Limelight.TogglePipeline;
 import frc.robot.commands.navX.zeroNavxDisplacement;
+import frc.robot.commands.navX.zeroNavxYaw;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class RobotContainer {
@@ -105,7 +106,7 @@ public class RobotContainer {
   // ======================= Button Commands ============================
   // Joysticks
     rBottom.onTrue(new RunCommand(drivetrain::zeroOdometry));
-    rOutside.onTrue(new zeroNavxDisplacement());
+    //rOutside.onTrue(new zeroNavxYaw());
     rTrigger.whileTrue(new DriveRelativeDistance(drivetrain, 1.0, 0, 0));
   // Gamepad
     gamepadL1.whileTrue(new AllignToTarget(drivetrain, Limelight.limelight1));
@@ -127,7 +128,7 @@ public class RobotContainer {
     drivetrain::zeroOdometry,
     new PIDConstants(1.5, 0.0, 0.0),
     new PIDConstants(0.5, 0.0, 0.0),
-    drivetrain::drive,
+    drivetrain::driveFieldRelative,
     eventMap,
     drivetrain
   );
