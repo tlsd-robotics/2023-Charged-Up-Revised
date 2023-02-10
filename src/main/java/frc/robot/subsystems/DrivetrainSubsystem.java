@@ -175,8 +175,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
 public void zeroOdometry() {
   odometry.resetPosition(
-          Rotation2d.fromDegrees(navX.navX.getFusedHeading()), //Reports compass heading, uses offsets from yaw gyro when compass heading cannot be read.
-                                                               //I noticed some issues with odometry rotation measurement, possibly caused by uncalibrated magnetometer?
+          Rotation2d.fromDegrees(-1 * navX.navX.getFusedHeading()), //Reports compass heading, uses offsets from yaw gyro when compass heading cannot be read.
           new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
           new Pose2d(odometry.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0))
   );
@@ -184,7 +183,7 @@ public void zeroOdometry() {
 
 public void zeroOdometry(Pose2d pose) { //This overload is necessary for pathplanner
         odometry.resetPosition(
-                Rotation2d.fromDegrees(navX.navX.getFusedHeading()),
+                Rotation2d.fromDegrees(-1 * navX.navX.getFusedHeading()),
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() },
                 pose
         );
@@ -204,7 +203,7 @@ public void zeroOdometry(Pose2d pose) { //This overload is necessary for pathpla
     //TODO: Consider Swerve Optimization - 
     
     odometry.update(
-                Rotation2d.fromDegrees(navX.navX.getFusedHeading()),
+                Rotation2d.fromDegrees(-1 * navX.navX.getFusedHeading()), //ChassisSpeeds.fromFieldOriented Expects CCW Positive angles
                 new SwerveModulePosition[]{ frontLeftModule.getPosition(), frontRightModule.getPosition(), backLeftModule.getPosition(), backRightModule.getPosition() }
         );
 
