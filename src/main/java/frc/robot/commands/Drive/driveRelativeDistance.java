@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class DriveRelativeDistance extends CommandBase {
@@ -45,9 +46,9 @@ public class DriveRelativeDistance extends CommandBase {
     pidY.setTolerance(TOLERANCE_DISTANCE);
     pidZ.setTolerance(TOLERANCE_ANGLE);
 
-    initialX = drivetrain.getPose2d().getX();
-    initialY = drivetrain.getPose2d().getY();
-    initialZ = drivetrain.getOdometryRotation().getDegrees();
+    initialX = drivetrain.getPose().getX();
+    initialY = drivetrain.getPose().getY();
+    initialZ = drivetrain.getPose().getRotation().getDegrees();
 
   }
 
@@ -56,9 +57,9 @@ public class DriveRelativeDistance extends CommandBase {
   public void execute() {
 
     drivetrain.drive(new ChassisSpeeds(
-      MathUtil.clamp(pidX.calculate(drivetrain.getPose2d().getX(), initialX + valX), -DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
-      MathUtil.clamp(pidY.calculate(drivetrain.getPose2d().getY(), initialY + valY), -DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND, DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND), 
-      MathUtil.clamp(pidZ.calculate(drivetrain.getOdometryRotation().getDegrees(), initialZ + valZ), -DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND, DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+      MathUtil.clamp(pidX.calculate(drivetrain.getPose().getX(), initialX + valX), -Constants.Swerve.maxSpeed, Constants.Swerve.maxSpeed), 
+      MathUtil.clamp(pidY.calculate(drivetrain.getPose().getY(), initialY + valY), -Constants.Swerve.maxSpeed, Constants.Swerve.maxSpeed), 
+      MathUtil.clamp(pidZ.calculate(drivetrain.getPose().getRotation().getDegrees(), initialZ + valZ), -Constants.Swerve.maxAngularVelocity, Constants.Swerve.maxAngularVelocity)
     ));
   }
 

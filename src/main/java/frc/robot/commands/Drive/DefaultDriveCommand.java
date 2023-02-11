@@ -2,7 +2,7 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.navX;
+import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -47,10 +47,10 @@ public class DefaultDriveCommand extends CommandBase {
       */
         drivetrain.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
-                        m_translationXSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR,
-                        m_translationYSupplier.getAsDouble() * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND * DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR,
-                        m_rotationSupplier.getAsDouble() * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND * (DrivetrainSubsystem.METERS_PER_SECOND_SCALING_FACTOR * 2),
-                        drivetrain.getOdometryRotation()
+                        m_translationXSupplier.getAsDouble() * Constants.Swerve.maxSpeed,
+                        m_translationYSupplier.getAsDouble() * Constants.Swerve.maxSpeed,
+                        m_rotationSupplier.getAsDouble() * Constants.Swerve.maxAngularVelocity,
+                        drivetrain.getPose().getRotation()
                 )
         );
     }

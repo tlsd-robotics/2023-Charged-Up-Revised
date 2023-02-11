@@ -13,6 +13,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.UtilityClasses.AxisSupplier;
@@ -22,10 +23,7 @@ import frc.robot.commands.Drive.DriveRelativeDistance;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
 import frc.robot.commands.Limelight.AllignToTarget;
 import frc.robot.commands.Limelight.TogglePipeline;
-import frc.robot.commands.navX.zeroNavxDisplacement;
-import frc.robot.commands.navX.zeroNavxYaw;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
 public class RobotContainer {
 
 //====================== CONTROLLER CONSTANTS ===============================
@@ -105,7 +103,7 @@ public class RobotContainer {
 
   // ======================= Button Commands ============================
   // Joysticks
-    rBottom.onTrue(new RunCommand(drivetrain::zeroOdometry));
+    rBottom.onTrue(Commands.runOnce(drivetrain::resetOdometry, drivetrain));
     //rOutside.onTrue(new zeroNavxYaw());
     rTrigger.whileTrue(new DriveRelativeDistance(drivetrain, 1.0, 0, 0));
   // Gamepad
@@ -124,8 +122,8 @@ public class RobotContainer {
   //can be executed without conflict. This builds a command handling
   //this logic.
   public SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-    drivetrain::getPose2d,
-    drivetrain::zeroOdometry,
+    drivetrain::getPose,
+    drivetrain::resetOdometry,
     new PIDConstants(1.5, 0.0, 0.0),
     new PIDConstants(0.5, 0.0, 0.0),
     drivetrain::driveFieldRelative,
