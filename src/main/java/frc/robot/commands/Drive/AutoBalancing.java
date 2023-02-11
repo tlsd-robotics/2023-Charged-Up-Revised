@@ -4,12 +4,22 @@
 
 package frc.robot.commands.Drive;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class AutoBalancing extends CommandBase {
-  /** Creates a new AutoBalancing. */
-  public AutoBalancing() {
-    // Use addRequirements() here to declare subsystem dependencies.
+
+  public DrivetrainSubsystem drivetrain;
+
+  private final double TOLERANCE = .9;
+
+  PIDController pidX = new PIDController(0.05, 0.01, 0);
+
+  public AutoBalancing(DrivetrainSubsystem Drivetrain) {
+    this.drivetrain = Drivetrain;
+
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
