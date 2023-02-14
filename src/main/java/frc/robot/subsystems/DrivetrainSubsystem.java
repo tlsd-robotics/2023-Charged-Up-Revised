@@ -27,8 +27,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     gyro = navX.navX;
     zeroGyro();
 
-    swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), new SwerveModulePosition[]{mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(), mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()});
-
     mSwerveMods =
         new SwerveModule[] {
           new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -36,6 +34,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
           new SwerveModule(2, Constants.Swerve.Mod2.constants),
           new SwerveModule(3, Constants.Swerve.Mod3.constants)
         };
+
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(), new SwerveModulePosition[]{mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(), mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()});
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
@@ -103,10 +103,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
+  public void periodic() {  
     swerveOdometry.update(getYaw(), new SwerveModulePosition[]{mSwerveMods[0].getPosition(), mSwerveMods[1].getPosition(), mSwerveMods[2].getPosition(), mSwerveMods[3].getPosition()});
     field.setRobotPose(getPose());
-
     for (SwerveModule mod : mSwerveMods) {
       SmartDashboard.putNumber(
           "Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());

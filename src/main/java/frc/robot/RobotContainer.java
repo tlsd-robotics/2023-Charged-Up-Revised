@@ -21,8 +21,6 @@ import frc.robot.commands.Drive.BalancingCommand;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveRelativeDistance;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
-import frc.robot.commands.Limelight.AllignToTarget;
-import frc.robot.commands.Limelight.TogglePipeline;
 import frc.robot.subsystems.DrivetrainSubsystem;
 public class RobotContainer {
 
@@ -81,7 +79,7 @@ public class RobotContainer {
   public JoystickButton gamepadL3 = new JoystickButton(gamepad, GamepadL3);
 
   //Event map for path following
-  HashMap <String, Command> eventMap = new HashMap();
+  HashMap <String, Command> eventMap = new HashMap<String, Command>();
 
   //create axes
   AxisSupplier rightYAxis = new AxisSupplier(rightJoy, AxisType.kX.value, true, 0.05, true);
@@ -107,8 +105,8 @@ public class RobotContainer {
     //rOutside.onTrue(new zeroNavxYaw());
     rTrigger.whileTrue(new DriveRelativeDistance(drivetrain, 1.0, 0, 0));
   // Gamepad
-    gamepadL1.whileTrue(new AllignToTarget(drivetrain, Limelight.limelight1));
-    gamepadR1.onTrue(new TogglePipeline(Limelight.limelight1));
+    //gamepadL1.whileTrue(new AllignToTarget(drivetrain, Limelight.limelight1));
+    //gamepadR1.onTrue(new TogglePipeline(Limelight.limelight1));
     
   }
 
