@@ -10,5 +10,5 @@ public class navX {
     //this class
     
     //Creates Navx object using AHRS class and the MXP port on the RoboRio
-    public static AHRS navX = new AHRS(Port.kMXP);
+    public static AHRS navX = new AHRS(Port.kMXP, (byte) 200);
 }
