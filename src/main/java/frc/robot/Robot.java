@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
 
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Autonomous.DoNothing;
 
 public class Robot extends TimedRobot {
+
+  public static PowerDistribution powerhub = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
 
   public static SendableChooser<Command> sendablechooser = new SendableChooser<Command>();
   private Command m_autonomousCommand;
@@ -26,6 +29,8 @@ public class Robot extends TimedRobot {
     sendablechooser.setDefaultOption("Do nothing", new DoNothing());
     sendablechooser.addOption("Path Auto", m_robotContainer.autoBuilder.fullAuto(PathPlanner.loadPathGroup("longTestPath", 4, 3)));
     SmartDashboard.putData("Autonomous", sendablechooser);
+
+    powerhub.clearStickyFaults();
   }
 
   @Override
