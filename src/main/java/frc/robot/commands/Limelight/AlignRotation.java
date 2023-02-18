@@ -5,28 +5,21 @@
 package frc.robot.commands.Limelight;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Limelight;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class TogglePipeline extends CommandBase {
-  
-  private boolean bDone;
-  private Limelight limelight;
-
-  public TogglePipeline(Limelight Limelight) {
-    this.limelight = Limelight;
+public class AlignRotation extends CommandBase {
+  /** Creates a new ZeroRotation. */
+  public AlignRotation(DrivetrainSubsystem drivetrain) {
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    limelight.togglePipeline();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    bDone = true;
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -35,6 +28,6 @@ public class TogglePipeline extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return bDone;
+    return false;
   }
 }
