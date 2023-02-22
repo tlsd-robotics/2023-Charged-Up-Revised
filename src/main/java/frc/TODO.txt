@@ -1,0 +1,26 @@
+TODO:
+> Arm control
+-> PID + feedforward
+-> Auto Setpoint (X, Y)
+--> Integrate with drivetrain
+-> Teleop setPositionConversionFactor
+--> Button Map
+
+> Throttled Stick Input For Teleop
+
+> End effector control?
+
+IN PROGRESS:
+> Limelight Vision
+-> Multiple Pipelines
+-> Drive to Distance
+-> Set Rotation 
+-> Align to Apriltag
+-> Auto Align to location to place game piece
+
+> Pathfollower
+-> Execute Events
+
+FUNCTIONAL:
+> 346 Swerve Drive*
+-> Needs bugfix for alignment on startup

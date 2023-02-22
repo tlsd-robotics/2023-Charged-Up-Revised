@@ -47,7 +47,7 @@ public class AllignToTarget extends CommandBase {
   public void execute() {
 
     if (limelight.getIsTargetFound()) {
-      if (limelight.getPipelineInt() == Limelight.APRILTAG_PIPELINE) {
+      if (limelight.getPipelineInt() == Limelight.aprilTag.id) {
 
         drivetrain.drive(new ChassisSpeeds(
           pidY.calculate(limelight.getVerticalError(), 0),

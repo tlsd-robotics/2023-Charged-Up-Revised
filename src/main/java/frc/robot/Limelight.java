@@ -6,24 +6,27 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight {
 
-  //============== Limelight Constants ================
     public static final int LED_ON = 3;
     public static final int LED_OFF = 1;
-    public static final int REFLECTIVE_PIPELINE = 0;
-    public static final int DEFAULT_PIPELINE = 1;
-    public static final int APRILTAG_PIPELINE = 2;
-  //===================================================
 
+    public static LimelightPipeline reflective = new LimelightPipeline(0, true);
+    public static LimelightPipeline aprilTag = new LimelightPipeline(1, false);
+    public static LimelightPipeline cone = new LimelightPipeline(2, false);
+    public static LimelightPipeline cube = new LimelightPipeline(3, false);
+    public static LimelightPipeline driverCam = new LimelightPipeline(4, false);
 
   // Instance Variables
     private NetworkTable table;
     private NetworkTableEntry ledMode;
 
+    public double distanceFromGroundMeters;
+
     // =================== Limelight Constructor ======================
-    public Limelight(String NetworkTableName, int DefaultPipeline) {
+    private Limelight(String NetworkTableName, LimelightPipeline DefaultPipeline, double distanceFromGroundMeters) {
 
         this.table = NetworkTableInstance.getDefault().getTable(NetworkTableName);
         this.ledMode = table.getEntry("ledMode");
+        this.distanceFromGroundMeters = distanceFromGroundMeters;
 
         setPipeline(DefaultPipeline);
         setLedOn(false);
@@ -33,31 +36,21 @@ public class Limelight {
     // =========================================================================
     // ======================= Create Lightlights here =========================
 
-    public static Limelight limelight1 = new Limelight("limelight", APRILTAG_PIPELINE);
+    public static Limelight limelightFront = new Limelight("limelightFront", driverCam, 0);
+    public static Limelight limelightRear = new Limelight("limelightRear", driverCam, 0);
 
 
     // ========================================================================
     // ======================== Setters and Getters ===========================
 
-    public void setPipeline(int pipeline){
-        this.table.getEntry("pipeline").setNumber(pipeline);
-      }
+    public void setPipeline(LimelightPipeline pipeline){
+        this.table.getEntry("pipeline").setNumber(pipeline.id);
+        ledMode.setNumber(pipeline.ledState ? LED_ON : LED_OFF);
+    }
 
     public void setLedOn(boolean isOn) {
-        if (isOn){
-          ledMode.setNumber(LED_ON);
-        } else {
-          ledMode.setNumber(LED_OFF);
-        }
-      }
-
-      public void togglePipeline() {
-        if (getPipelineInt() == APRILTAG_PIPELINE){
-          this.table.getEntry("pipeline").setNumber(REFLECTIVE_PIPELINE);
-        } else if (getPipelineInt() == REFLECTIVE_PIPELINE){
-          this.table.getEntry("pipeline").setNumber(APRILTAG_PIPELINE);
-        }
-      }
+        ledMode.setNumber(isOn ? LED_ON : LED_OFF);
+    }
 
       public double getTagID() {
         NetworkTableEntry tid = table.getEntry("tid");
@@ -117,20 +110,11 @@ public class Limelight {
     return table.getEntry("tcornxy").getDoubleArray(new double[] {});
   }
 
+  public double getDistanceToTarget(double targetHeightMeters) {
+    return (targetHeightMeters - distanceFromGroundMeters) / Math.tan(Math.toRadians(getVerticalError()));
+  }
+
   public NetworkTable getNetworkTable(Limelight limelight) {
     return table;
   }
-
-    // =======================================================================
-    // ======================= Enable Pipelines ==============================
-
-    public void enableApriltagTargeting() {
-        setLedOn(false);
-        setPipeline(APRILTAG_PIPELINE);
-      }
-      
-      public void enableReflectionTargeting() {
-        setPipeline(REFLECTIVE_PIPELINE);
-        setLedOn(true);
-      }
 }
