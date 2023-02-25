@@ -1,3 +1,7 @@
+GOOGLE DOC:
+https://docs.google.com/document/d/1lOLgFrMKxZSqBGImpj4zKhlCp49UXaNsPP__Qa6WMxo/edit 
+
+
 TODO:
 > Arm control
 -> PID + feedforward
@@ -67,6 +71,5 @@ SAFETY FUNCTIONALITY:
 > Rotation Limit Switches
 
 CONTROLS:
-
 
 
