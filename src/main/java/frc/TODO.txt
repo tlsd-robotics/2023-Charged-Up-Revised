@@ -8,7 +8,12 @@ TODO:
 
 > Throttled Stick Input For Teleop
 
+> LED Control
+
 > End effector control?
+
+> Quick Auto Planner?
+-> Java app, send data to network tables
 
 IN PROGRESS:
 > Limelight Vision

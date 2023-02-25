@@ -13,7 +13,7 @@ public class BalancingCommand extends CommandBase {
 
   private final double TOLERANCE = .9;
 
-  PIDController pidX = new PIDController(0.05, 0.01, 0);
+  PIDController pidX = new PIDController(0.05, 0.00, 0.2);
 
   public BalancingCommand(DrivetrainSubsystem Drivetrain) {
     this.drivetrain = Drivetrain;

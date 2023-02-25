@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.UtilityClasses.AxisSupplier;
+import frc.robot.UtilityClasses.ThrottledAxisSupplier;
 import frc.robot.commands.Drive.BalancingCommand;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveRelativeDistance;
@@ -102,7 +103,7 @@ public class RobotContainer {
   // ======================= Button Commands ============================
   // Joysticks
     rBottom.onTrue(Commands.runOnce(drivetrain::resetOdometry, drivetrain));
-    //rOutside.onTrue(new zeroNavxYaw());
+    rOutside.onTrue(new BalancingCommand(drivetrain));
     rTrigger.whileTrue(new DriveRelativeDistance(drivetrain, 1.0, 0, 0));
   // Gamepad
     //gamepadL1.whileTrue(new AllignToTarget(drivetrain, Limelight.limelight1));

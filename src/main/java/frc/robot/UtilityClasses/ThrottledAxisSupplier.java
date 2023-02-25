@@ -20,11 +20,12 @@ public class ThrottledAxisSupplier implements DoubleSupplier {
     double throttleMax;
     boolean squared;
     double deadzone;
+    boolean inverted;
 
 
     //Creates class for an axis that can be passed to commands. Note: Deadzones are applied before squaring, throttling is applied after both.
-    ThrottledAxisSupplier(GenericHID HIDController, int AxisID, GenericHID ThrottleHIDController, int ThrottleAxisID, 
-                          double ThrottleMin, double ThrottleMax, boolean Squared, double Deadzone) {
+    public ThrottledAxisSupplier(GenericHID HIDController, int AxisID, GenericHID ThrottleHIDController, int ThrottleAxisID, 
+                          double ThrottleMin, double ThrottleMax, boolean Squared, double Deadzone, boolean inverted) {
         hidController = HIDController;
         axisId = AxisID;
         throttleHidController = ThrottleHIDController;
@@ -38,11 +39,11 @@ public class ThrottledAxisSupplier implements DoubleSupplier {
     public double getAsDouble () {
         if (squared) {
             double value = ApplyDeadzone(hidController.getRawAxis(axisId), deadzone);
-            return Util.map(throttleHidController.getRawAxis(throttleAxisId), throttleMin, throttleMax, 0, 1) * 
+            return (inverted ? -1 : 1) * Util.map(throttleHidController.getRawAxis(throttleAxisId), throttleMin, throttleMax, 0, 1) * 
                    Math.copySign(value * value, value);
         }
         else {
-            return Util.map(throttleHidController.getRawAxis(throttleAxisId), throttleMin, throttleMax, 0, 1) * 
+            return (inverted ? -1 : 1) * Util.map(throttleHidController.getRawAxis(throttleAxisId), throttleMin, throttleMax, 0, 1) * 
                    ApplyDeadzone(hidController.getRawAxis(axisId), deadzone);
         }
     }
