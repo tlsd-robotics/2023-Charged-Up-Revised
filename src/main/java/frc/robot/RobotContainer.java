@@ -83,9 +83,9 @@ public class RobotContainer {
   HashMap <String, Command> eventMap = new HashMap<String, Command>();
 
   //create axes
-  AxisSupplier rightYAxis = new AxisSupplier(rightJoy, AxisType.kX.value, true, 0.05, true);
-  AxisSupplier rightXAxis = new AxisSupplier(rightJoy, AxisType.kY.value, true, 0.05, true);
-  AxisSupplier rightZAxis = new AxisSupplier(rightJoy, AxisType.kZ.value, true, 0.05, true);
+  ThrottledAxisSupplier rightYAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kX.value, rightJoy, 3, 1.0, -1.0, true, 0.05, true);
+  ThrottledAxisSupplier rightXAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kY.value, rightJoy, 3, 1.0, -1.0, true, 0.05, true);
+  ThrottledAxisSupplier rightZAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kZ.value,  rightJoy, 3, 1.0, -1.0, true, 0.05, true);
 
   //Instantiate Subsystems
   DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
