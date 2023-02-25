@@ -5,6 +5,7 @@ TODO:
 --> Integrate with drivetrain
 -> Teleop setPositionConversionFactor
 --> Button Map
+-> Adjust Extension Timing Based on Pressure
 
 > Throttled Stick Input For Teleop
 
@@ -29,3 +30,43 @@ IN PROGRESS:
 FUNCTIONAL:
 > 346 Swerve Drive*
 -> Needs bugfix for alignment on startup
+
+COMMANDS:
+> Drive (Robot and Field Oriented) FUNCTIONAL
+> Auto
+-> Follow a path 
+--> Continuous Collision Avoidance
+-> Pick up Targets from ground (Game Piece Tracking)
+--> Detect Game Piece
+--> Align (Angle then Distance)
+--> Move Arm to correct location and distance
+---> Command for each side?
+--> Clamp End effector
+-> Place a target
+--> Alignment 
+--> Arm Control
+--> Drop target
+-> Return arm to home
+--> Close to limit switch (within frame perimeter)
+-> Balance
+--> Retest PID
+--> Trapezoidal PID Control?
+--> Bang Bang Controller
+
+SAFETY FUNCTIONALITY:
+> Voltage spike detection
+> Acceleration Spike detection
+-> Back up after collision with other robot
+> Detect sudden change in pitch or roll
+-> Drive to counteract
+> Detect falling off edge during balancing (Stop Driving)
+
+> Monitor Arm Voltage
+> Rubber Stoppers on Arm
+> Touch sensor at end of arm
+> Rotation Limit Switches
+
+CONTROLS:
+
+
+
