@@ -19,18 +19,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
 
-  private CANSparkMax right = new CANSparkMax(0, MotorType.kBrushless);
-  private CANSparkMax left = new CANSparkMax(0, MotorType.kBrushless);
+  private CANSparkMax right = new CANSparkMax(29, MotorType.kBrushless);
+  private CANSparkMax left = new CANSparkMax(23, MotorType.kBrushless);
   private MotorControllerGroup angleMotors = new MotorControllerGroup(left, right);
 
   private DutyCycleEncoder encoder = new DutyCycleEncoder(0);
-  final double ENCODER_OFFSET = 0;
+  final double ENCODER_OFFSET = 62.3;
 
   private ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);
-  private PIDController pid = new PIDController(0, 0, 0);
+  private PIDController pid = new PIDController(.1, 0, 0);
 
-  private DigitalInput armLimitSwitchFront = new DigitalInput(0);
-  private DigitalInput armLimitSwitchRear = new DigitalInput(0);
+  private DigitalInput armLimitSwitchFront = new DigitalInput(1);
+  private DigitalInput armLimitSwitchRear = new DigitalInput(2);
 
   private double targetAngle = 0;
   private boolean angleControlEnabled = false;
@@ -45,7 +45,18 @@ public class ArmSubsystem extends SubsystemBase {
   ArmLength currentArmLength;
 
   /** Creates a new ShoulderSubsystem. */
-  public ArmSubsystem() {}
+  public ArmSubsystem() {
+    right.restoreFactoryDefaults();
+    left.restoreFactoryDefaults();
+    right.setInverted(true);
+    left.setInverted(false);
+    right.burnFlash();
+    left.burnFlash();
+  }
+
+  public double getEncoderAngle() {
+    return encoder.get() - ENCODER_OFFSET;
+  }
 
   public void enabled() {
     angleControlEnabled = true;
