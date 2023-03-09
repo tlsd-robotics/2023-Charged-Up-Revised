@@ -7,19 +7,16 @@ package frc.robot.commands.Arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.UtilityClasses.Util;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ArmSubsystem.ArmLength;
 
 public class ArmToAngle extends CommandBase {
   /** Creates a new ArmToSetpoint. */
   double angleDegrees;
-  ArmLength length;
   ArmSubsystem arm;
   final double ANGLE_TOLERANCE = 1;
   final int STABLE_INTERATIONS = 15;
   int inRangeIterations = 0;
-  public ArmToAngle(double angleDegrees, ArmLength length, ArmSubsystem arm) {
+  public ArmToAngle(double angleDegrees, ArmSubsystem arm) {
     this.angleDegrees = angleDegrees;
-    this.length = length;
     this.arm = arm;
     addRequirements(arm);
   }

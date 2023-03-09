@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.UtilityClasses.Util;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -39,8 +40,19 @@ public class ArmSubsystem extends SubsystemBase {
   DoubleSolenoid upperCylinders = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
   public enum ArmLength {
     RETRACTED,
-    HALF_EXTENDED,
-    FULLY_EXTENDED
+    LOWER_EXTENDED,
+    UPPER_EXTENDED,
+    FULLY_EXTENDED;
+
+    ArmLength[] vals = ArmLength.values();
+
+    public ArmLength next() {
+      return vals[(this.ordinal() + 1 != vals.length) ? (this.ordinal() + 1) : (this.ordinal())];
+    }
+
+    public ArmLength previous() {
+      return vals[(this.ordinal() != 0) ? ( this.ordinal() - 1) : (this.ordinal())];
+    }
   };
   ArmLength currentArmLength;
 
@@ -52,10 +64,11 @@ public class ArmSubsystem extends SubsystemBase {
     left.setInverted(false);
     right.burnFlash();
     left.burnFlash();
+    encoder.setDistancePerRotation(360);
   }
 
   public double getEncoderAngle() {
-    return encoder.get() - ENCODER_OFFSET;
+    return encoder.getDistance() - ENCODER_OFFSET;
   }
 
   public void enabled() {
@@ -67,6 +80,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setAngle(double angle) {
+
     targetAngle = angle;
   }
 
@@ -78,9 +92,14 @@ public class ArmSubsystem extends SubsystemBase {
         upperCylinders.set(Value.kReverse);
         break;
       }
-      case HALF_EXTENDED: {
+      case LOWER_EXTENDED: {
         lowerCylinders.set(Value.kForward);
         upperCylinders.set(Value.kReverse);
+        break;
+      }
+      case UPPER_EXTENDED: {
+        lowerCylinders.set(Value.kReverse);
+        upperCylinders.set(Value.kForward);
         break;
       }
       case FULLY_EXTENDED: {
@@ -99,7 +118,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if (angleControlEnabled) {
-      double motorSpeed = pid.calculate(encoder.get() - ENCODER_OFFSET, targetAngle) + feedForward.calculate(Math.toRadians(targetAngle), 1);
+      double motorSpeed = pid.calculate(getEncoderAngle(), targetAngle) + feedForward.calculate(Math.toRadians(targetAngle), 1);
       if (armLimitSwitchFront.get() && (motorSpeed < 0)) {
         angleMotors.set(0);
         return;

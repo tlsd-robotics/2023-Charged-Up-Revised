@@ -8,7 +8,7 @@ TODO:
 -> Auto Setpoint (X, Y)
 --> Integrate with drivetrain
 -> Teleop setPositionConversionFactor
---> Button Map
+--> Button Map (DONE)
 -> Adjust Extension Timing Based on Pressure
 
 > Throttled Stick Input For Teleop
