@@ -15,6 +15,7 @@ public class ArmToLength extends CommandBase {
   public ArmToLength(ArmLength length, ArmSubsystem arm) {
     this.length = length;
     this.arm = arm;
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
