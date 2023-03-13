@@ -7,6 +7,7 @@ package frc.robot.commands.Arm;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmLength;
+import frc.robot.subsystems.ArmSubsystem.ArmSetpoint;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,5 +19,9 @@ public class ArmToSetpoint extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ArmToAngle(angle, arm), new ArmToLength(length, arm));
+  }
+
+  public ArmToSetpoint(ArmSetpoint setpoint, ArmSubsystem arm) {
+    addCommands(new ArmToAngle(setpoint.angleDegrees, arm), new ArmToLength(setpoint.length, arm));
   }
 }

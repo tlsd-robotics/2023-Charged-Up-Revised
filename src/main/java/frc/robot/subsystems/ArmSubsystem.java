@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.UtilityClasses.Util;
+import frc.robot.subsystems.ArmSubsystem.ArmLength;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -38,6 +39,27 @@ public class ArmSubsystem extends SubsystemBase {
 
   DoubleSolenoid lowerCylinders = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
   DoubleSolenoid upperCylinders = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
+
+  public enum ArmSetpoint {
+
+    RETRACTED(-60, ArmLength.RETRACTED),
+    FRONT_FLOOR(-50, ArmLength.RETRACTED),
+    REAR_FLOOR(70, ArmLength.RETRACTED),
+    MID_CUBE(180, ArmLength.RETRACTED),
+    MID_CONE(175, ArmLength.RETRACTED),
+    UPPER_CUBE(170, ArmLength.RETRACTED),
+    UPPER_CONE(165, ArmLength.RETRACTED),
+    SUBSTATION(170, ArmLength.RETRACTED);
+  
+    public final double angleDegrees;
+    public final ArmLength length;
+  
+    ArmSetpoint(double angleDegrees, ArmLength length) {
+      this.angleDegrees = angleDegrees;
+      this.length = length;
+    }
+  }
+
   public enum ArmLength {
     RETRACTED,
     LOWER_EXTENDED,
@@ -69,6 +91,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getEncoderAngle() {
     return encoder.getDistance() - ENCODER_OFFSET;
+  }
+
+  public double getAngleSetpoint() {
+    return targetAngle;
   }
 
   public void enabled() {
@@ -136,3 +162,5 @@ public class ArmSubsystem extends SubsystemBase {
     }
   }
 }
+
+

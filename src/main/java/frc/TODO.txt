@@ -1,3 +1,33 @@
+NEW TODO:
+Arm Control:
+> SetPoints 
+> Manual control
+> Saftey Constraints
+
+Vision:
+> Lock to game piece, and drive to distance
+> Align rotation (and position?) to Apriltag
+> Center on retro reflective target?
+
+Auto:
+> Path planner paths, and event map
+> Quick auto string parsing
+> Testing
+
+Leds:
+> Signal to human player cone/cube
+
+
+
+
+
+
+
+
+
+
+
+
 GOOGLE DOC:
 https://docs.google.com/document/d/1lOLgFrMKxZSqBGImpj4zKhlCp49UXaNsPP__Qa6WMxo/edit 
 

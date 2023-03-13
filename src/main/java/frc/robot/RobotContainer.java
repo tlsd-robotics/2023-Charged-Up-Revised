@@ -26,13 +26,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.UtilityClasses.AxisBooleanSupplier;
 import frc.robot.UtilityClasses.AxisSupplier;
 import frc.robot.UtilityClasses.ThrottledAxisSupplier;
+import frc.robot.commands.Arm.ArmMoveAtRate;
 import frc.robot.commands.Arm.ArmToLength;
+import frc.robot.commands.Arm.ArmToSetpoint;
 import frc.robot.commands.Drive.BalancingCommand;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveRelativeDistance;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmSetpoint;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class RobotContainer {
 
@@ -112,7 +115,7 @@ public class RobotContainer {
   public JoystickButton dsLeftFour =    new JoystickButton(driverStation, dsLeftFourID);
   public JoystickButton dsRightOne =    new JoystickButton(driverStation, dsRightOneID);
   public JoystickButton dsRightTwo =    new JoystickButton(driverStation, dsRightTwoID);
-  public JoystickButton dsRightThreeI = new JoystickButton(driverStation, dsRightThreeID);
+  public JoystickButton dsRightThree = new JoystickButton(driverStation, dsRightThreeID);
   public JoystickButton dsRightFour =   new JoystickButton(driverStation, dsRightFourID);
   public JoystickButton dsSmallTop =    new JoystickButton(driverStation, dsSmallTopID);
   public JoystickButton dsSmallBottom = new JoystickButton(driverStation, dsSmallBottomID);
@@ -154,6 +157,18 @@ public class RobotContainer {
   //Driver Station
     dsArmControlExtend.onTrue(new ArmToLength(arm.getCurrentArmLength().next(), arm));
     dsArmControlRetract.onTrue(new ArmToLength(arm.getCurrentArmLength().next(), arm)); 
+
+    dsArmAngleControlPositive.whileTrue(new ArmMoveAtRate(50.0, arm));
+    dsArmAngleControlNegative.whileTrue(new ArmMoveAtRate(-50.0, arm));
+
+    dsLeftOne.onTrue(new ArmToSetpoint(ArmSetpoint.UPPER_CONE, arm));
+    dsLeftTwo.onTrue(new ArmToSetpoint(ArmSetpoint.UPPER_CUBE, arm));
+    dsLeftThree.onTrue(new ArmToSetpoint(ArmSetpoint.MID_CONE, arm));
+    dsLeftFour.onTrue(new ArmToSetpoint(ArmSetpoint.MID_CUBE, arm));
+    dsRightOne.onTrue(new ArmToSetpoint(ArmSetpoint.SUBSTATION, arm));
+    dsRightTwo.onTrue(new ArmToSetpoint(ArmSetpoint.FRONT_FLOOR, arm));
+    dsRightThree.onTrue(new ArmToSetpoint(ArmSetpoint.REAR_FLOOR, arm));
+    dsRightFour.onTrue(new ArmToSetpoint(ArmSetpoint.RETRACTED, arm));
   }
 
   //==================== Path Following Event Map ========================
