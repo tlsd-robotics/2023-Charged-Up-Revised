@@ -21,6 +21,7 @@ public class AxisBooleanSupplier implements BooleanSupplier {
         this.axisID = axisID;
     }
 
+    @Override
     public boolean getAsBoolean() {
         return greaterThan ? (stick.getRawAxis(axisID) >= triggerPoint) : (stick.getRawAxis(axisID) <= triggerPoint);
     }

@@ -119,8 +119,8 @@ public class RobotContainer {
   public JoystickButton dsRightFour =   new JoystickButton(driverStation, dsRightFourID);
   public JoystickButton dsSmallTop =    new JoystickButton(driverStation, dsSmallTopID);
   public JoystickButton dsSmallBottom = new JoystickButton(driverStation, dsSmallBottomID);
-  public Trigger dsArmAngleControlPositive = new Trigger(new AxisBooleanSupplier(.9, true, driverStation, AxisType.kY.value));
-  public Trigger dsArmAngleControlNegative = new Trigger(new AxisBooleanSupplier(-.9, false, driverStation, AxisType.kY.value));
+  public Trigger dsArmAngleControlPositive = new Trigger(new AxisBooleanSupplier(-.9, false, driverStation, AxisType.kY.value));
+  public Trigger dsArmAngleControlNegative = new Trigger(new AxisBooleanSupplier(.9, true, driverStation, AxisType.kY.value));
   public Trigger dsArmControlExtend = new Trigger(new AxisBooleanSupplier(.9, true, driverStation, AxisType.kX.value));
   public Trigger dsArmControlRetract = new Trigger(new AxisBooleanSupplier(-.9, false, driverStation, AxisType.kX.value));
   
@@ -156,7 +156,7 @@ public class RobotContainer {
     //gamepadR1.onTrue(new TogglePipeline(Limelight.limelight1));
   //Driver Station
     dsArmControlExtend.onTrue(new ArmToLength(arm.getCurrentArmLength().next(), arm));
-    dsArmControlRetract.onTrue(new ArmToLength(arm.getCurrentArmLength().next(), arm)); 
+    dsArmControlRetract.onTrue(new ArmToLength(arm.getCurrentArmLength().previous(), arm)); 
 
     dsArmAngleControlPositive.whileTrue(new ArmMoveAtRate(50.0, arm));
     dsArmAngleControlNegative.whileTrue(new ArmMoveAtRate(-50.0, arm));

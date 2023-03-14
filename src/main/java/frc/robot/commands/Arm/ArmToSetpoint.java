@@ -18,10 +18,26 @@ public class ArmToSetpoint extends SequentialCommandGroup {
   public ArmToSetpoint(double angle, ArmLength length, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ArmToAngle(angle, arm), new ArmToLength(length, arm));
+    if (arm.getCurrentArmLength().ordinal() < length.ordinal()) {
+      addCommands(new ArmToAngle(angle, arm), new ArmToLength(length, arm));
+    }
+    else if (arm.getCurrentArmLength().ordinal() > length.ordinal()) {
+      addCommands(new ArmToLength(length, arm), new ArmToAngle(angle, arm));
+    }
+    else {
+      addCommands(new ArmToAngle(angle, arm));
+    }
   }
 
   public ArmToSetpoint(ArmSetpoint setpoint, ArmSubsystem arm) {
-    addCommands(new ArmToAngle(setpoint.angleDegrees, arm), new ArmToLength(setpoint.length, arm));
+    if (arm.getCurrentArmLength().ordinal() < setpoint.length.ordinal()) {
+      addCommands(new ArmToAngle(setpoint.angleDegrees, arm), new ArmToLength(setpoint.length, arm));
+    }
+    else if (arm.getCurrentArmLength().ordinal() > setpoint.length.ordinal()) {
+      addCommands(new ArmToLength(setpoint.length, arm), new ArmToAngle(setpoint.angleDegrees, arm));
+    }
+    else {
+      addCommands(new ArmToAngle(setpoint.angleDegrees, arm));
+    }
   }
 }

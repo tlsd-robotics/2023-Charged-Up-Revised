@@ -13,7 +13,7 @@ public class EndEffectorSubsystem extends SubsystemBase {
   /** Creates a new EndEffectorSubsystem. */
   public EndEffectorSubsystem() {}
 
-  private DoubleSolenoid effectorSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
+  private DoubleSolenoid effectorSolenoid = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 0, 16);
 
   public void open() {
     effectorSolenoid.set(Value.kForward);

@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.UtilityClasses.Util;
 import frc.robot.subsystems.ArmSubsystem.ArmLength;
@@ -29,21 +31,21 @@ public class ArmSubsystem extends SubsystemBase {
   final double ENCODER_OFFSET = 62.3;
 
   private ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);
-  private PIDController pid = new PIDController(.1, 0, 0);
+  private PIDController pid = new PIDController(.05, 0, 0);
 
   private DigitalInput armLimitSwitchFront = new DigitalInput(1);
   private DigitalInput armLimitSwitchRear = new DigitalInput(2);
 
-  private double targetAngle = 0;
+  private double targetAngle;
   private boolean angleControlEnabled = false;
 
-  DoubleSolenoid lowerCylinders = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
-  DoubleSolenoid upperCylinders = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
+  DoubleSolenoid lowerCylinders = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 1, 15);
+  DoubleSolenoid upperCylinders = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 2, 14);
 
   public enum ArmSetpoint {
 
-    RETRACTED(-60, ArmLength.RETRACTED),
-    FRONT_FLOOR(-50, ArmLength.RETRACTED),
+    RETRACTED(-48.4, ArmLength.RETRACTED),
+    FRONT_FLOOR(-40, ArmLength.RETRACTED),
     REAR_FLOOR(70, ArmLength.RETRACTED),
     MID_CUBE(180, ArmLength.RETRACTED),
     MID_CONE(175, ArmLength.RETRACTED),
@@ -61,12 +63,27 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public enum ArmLength {
-    RETRACTED,
-    LOWER_EXTENDED,
-    UPPER_EXTENDED,
-    FULLY_EXTENDED;
+    RETRACTED(new double[][] {{-48.4, 241.2}}),
+    LOWER_EXTENDED(new double[][] {{-40, 200}}),
+    UPPER_EXTENDED(new double[][] {{-35, 50}, {120, 220}}),
+    FULLY_EXTENDED(new double[][] {{-30, 40}, {140, 190}});
 
-    ArmLength[] vals = ArmLength.values();
+    private static final ArmLength[] vals = ArmLength.values();
+
+    private final double[][] VALID_RANGES;
+
+    ArmLength(double[][] validRangles) {
+      this.VALID_RANGES = validRangles;
+    }
+
+    public boolean AngleInValidRange(double angleDegrees) {
+      for (int i = 0; i < this.VALID_RANGES.length; i++) {
+        if (Util.inRange(angleDegrees, this.VALID_RANGES[i][0], this.VALID_RANGES[i][1])) {
+          return true;
+        }
+      }
+      return false;
+    }
 
     public ArmLength next() {
       return vals[(this.ordinal() + 1 != vals.length) ? (this.ordinal() + 1) : (this.ordinal())];
@@ -76,7 +93,7 @@ public class ArmSubsystem extends SubsystemBase {
       return vals[(this.ordinal() != 0) ? ( this.ordinal() - 1) : (this.ordinal())];
     }
   };
-  ArmLength currentArmLength;
+  ArmLength currentArmLength = ArmLength.RETRACTED;
 
   /** Creates a new ShoulderSubsystem. */
   public ArmSubsystem() {
@@ -87,6 +104,9 @@ public class ArmSubsystem extends SubsystemBase {
     right.burnFlash();
     left.burnFlash();
     encoder.setDistancePerRotation(360);
+    upperCylinders.set(Value.kReverse);
+    lowerCylinders.set(Value.kReverse);
+    targetAngle = getEncoderAngle();
   }
 
   public double getEncoderAngle() {
@@ -145,21 +165,25 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     if (angleControlEnabled) {
       double motorSpeed = pid.calculate(getEncoderAngle(), targetAngle) + feedForward.calculate(Math.toRadians(targetAngle), 1);
-      if (armLimitSwitchFront.get() && (motorSpeed < 0)) {
-        angleMotors.set(0);
-        return;
-      }
-      else if (armLimitSwitchRear.get() && (motorSpeed > 0)) {
-        angleMotors.set(0);
-        return;
-      }
-      else {
+      //if (armLimitSwitchFront.get() && (motorSpeed < 0)) {
+      //  angleMotors.set(0);
+      //  return;
+      //}
+      //else if (armLimitSwitchRear.get() && (motorSpeed > 0)) {
+      //  angleMotors.set(0);
+      //  return;
+      //}
+      //else {
         angleMotors.set(motorSpeed);
-      }
+      //}
     }
     else {
       angleMotors.set(0);
     }
+
+    SmartDashboard.putNumber("Current Angle: ", getEncoderAngle());
+    SmartDashboard.putNumber("Current Setpoint: ", getAngleSetpoint());
+    SmartDashboard.putNumber("Current Length Index: ", currentArmLength.ordinal());
   }
 }
 

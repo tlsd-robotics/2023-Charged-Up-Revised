@@ -4,14 +4,19 @@
 
 package frc.robot.commands.Arm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmLength;
 
 public class ArmToLength extends CommandBase {
   /** Creates a new ArmToLength. */
+
+  private final int TRANSITION_TIME_SECONDS = 1;
+
   ArmLength length;
   ArmSubsystem arm;
+  Timer timer = new Timer();
   public ArmToLength(ArmLength length, ArmSubsystem arm) {
     this.length = length;
     this.arm = arm;
@@ -23,7 +28,11 @@ public class ArmToLength extends CommandBase {
   //TODO: Add safety checks, pressure based timing
   @Override
   public void initialize() {
-    arm.setArmLength(length);
+    timer.reset();
+    timer.start();
+    if (length.AngleInValidRange(arm.getAngleSetpoint()) && length.AngleInValidRange(arm.getEncoderAngle())) {
+      arm.setArmLength(length);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,6 +46,6 @@ public class ArmToLength extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return timer.get() >= TRANSITION_TIME_SECONDS;
   }
 }

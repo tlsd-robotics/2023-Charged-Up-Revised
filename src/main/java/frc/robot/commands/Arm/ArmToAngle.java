@@ -25,7 +25,12 @@ public class ArmToAngle extends CommandBase {
   @Override
   public void initialize() {
     arm.enabled();
-    arm.setAngle(angleDegrees);
+    if (arm.getCurrentArmLength().AngleInValidRange(angleDegrees)) {
+      arm.setAngle(angleDegrees);
+    }
+    else {
+      angleDegrees = arm.getAngleSetpoint();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
