@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
 
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -17,6 +18,8 @@ import frc.robot.commands.Autonomous.DoNothing;
 public class Robot extends TimedRobot {
 
   public static PowerDistribution powerhub = new PowerDistribution(1, PowerDistribution.ModuleType.kRev);
+
+  public static PneumaticHub pneumaticHub = new PneumaticHub(3);
 
   public static SendableChooser<Command> sendablechooser = new SendableChooser<Command>();
   private Command m_autonomousCommand;
@@ -31,6 +34,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Autonomous", sendablechooser);
 
     powerhub.clearStickyFaults();
+
+    pneumaticHub.disableCompressor();
   }
 
   @Override

@@ -7,6 +7,8 @@ package frc.robot.commands.Arm;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmMoveAtRate extends CommandBase {
@@ -27,13 +29,20 @@ public class ArmMoveAtRate extends CommandBase {
     intialAngle = arm.getAngleSetpoint();
     timer.reset();
     timer.start();
+    arm.enabled();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setAngle(intialAngle + (timer.get() * rateDegreesPerSecond));
-    SmartDashboard.putNumber("Arm Rate Timer: ", timer.get());
+    double angleDegrees = intialAngle + (timer.get() * rateDegreesPerSecond);
+    if (arm.getCurrentArmLength().AngleInValidRange(angleDegrees)) {
+      arm.setAngle(angleDegrees);
+      SmartDashboard.putBoolean("Angle Saftey Triggered: ", false);
+    }
+    else {
+      SmartDashboard.putBoolean("Angle Saftey Triggered: ", true);
+    }
   }
 
   // Called once the command ends or is interrupted.

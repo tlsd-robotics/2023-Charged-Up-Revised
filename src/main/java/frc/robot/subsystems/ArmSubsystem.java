@@ -86,11 +86,11 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public ArmLength next() {
-      return vals[(this.ordinal() + 1 != vals.length) ? (this.ordinal() + 1) : (this.ordinal())];
+      return vals[(this.ordinal() < vals.length) ? (this.ordinal() + 1) : (this.ordinal())];
     }
 
     public ArmLength previous() {
-      return vals[(this.ordinal() != 0) ? ( this.ordinal() - 1) : (this.ordinal())];
+      return vals[(this.ordinal() != 0) ? (this.ordinal() - 1) : (this.ordinal())];
     }
   };
   ArmLength currentArmLength = ArmLength.RETRACTED;
@@ -184,6 +184,7 @@ public class ArmSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Current Angle: ", getEncoderAngle());
     SmartDashboard.putNumber("Current Setpoint: ", getAngleSetpoint());
     SmartDashboard.putNumber("Current Length Index: ", currentArmLength.ordinal());
+    SmartDashboard.putBoolean("Arm Enabled: ", angleControlEnabled);
   }
 }
 

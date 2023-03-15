@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Arm;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.UtilityClasses.Util;
 import frc.robot.subsystems.ArmSubsystem;
@@ -27,9 +28,11 @@ public class ArmToAngle extends CommandBase {
     arm.enabled();
     if (arm.getCurrentArmLength().AngleInValidRange(angleDegrees)) {
       arm.setAngle(angleDegrees);
+      SmartDashboard.putBoolean("Angle Saftey Triggered: ", false);
     }
     else {
-      angleDegrees = arm.getAngleSetpoint();
+      //angleDegrees = arm.getAngleSetpoint();
+      SmartDashboard.putBoolean("Angle Saftey Triggered: ", true);
     }
   }
 

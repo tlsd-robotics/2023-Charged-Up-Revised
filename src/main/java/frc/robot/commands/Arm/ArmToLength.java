@@ -5,6 +5,7 @@
 package frc.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmLength;
@@ -32,6 +33,10 @@ public class ArmToLength extends CommandBase {
     timer.start();
     if (length.AngleInValidRange(arm.getAngleSetpoint()) && length.AngleInValidRange(arm.getEncoderAngle())) {
       arm.setArmLength(length);
+      SmartDashboard.putBoolean("Length Saftey Triggered: ", false);
+    }
+    else {
+      SmartDashboard.putBoolean("Length Saftey Triggered: ", true);
     }
   }
 
