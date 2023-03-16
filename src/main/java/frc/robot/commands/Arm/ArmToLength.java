@@ -26,18 +26,18 @@ public class ArmToLength extends CommandBase {
 
   // Called when the command is initially scheduled.
 
-  //TODO: Add safety checks, pressure based timing
+  //TODO: pressure based timing?
   @Override
   public void initialize() {
     timer.reset();
     timer.start();
-    if (length.AngleInValidRange(arm.getAngleSetpoint()) && length.AngleInValidRange(arm.getEncoderAngle())) {
+    //if (length.AngleInValidRange(arm.getAngleSetpoint()) && length.AngleInValidRange(arm.getEncoderAngle())) {
       arm.setArmLength(length);
       SmartDashboard.putBoolean("Length Saftey Triggered: ", false);
-    }
-    else {
+    //}
+    //else {
       SmartDashboard.putBoolean("Length Saftey Triggered: ", true);
-    }
+    //}
   }
 
   // Called every time the scheduler runs while the command is scheduled.

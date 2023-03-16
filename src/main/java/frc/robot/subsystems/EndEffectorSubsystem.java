@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class EndEffectorSubsystem extends SubsystemBase {
 
-  private DoubleSolenoid effectorSolenoid = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 0, 16);
+  private DoubleSolenoid effectorSolenoid = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 0, 15);
 
   /** Creates a new EndEffectorSubsystem. */
   public EndEffectorSubsystem() {
-    //effectorSolenoid.set(Value.kForward); // Start in open configuration
+    effectorSolenoid.set(Value.kForward); // Start in open configuration
   }
 
   

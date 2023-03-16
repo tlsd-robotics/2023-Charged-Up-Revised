@@ -29,12 +29,16 @@ import frc.robot.UtilityClasses.ThrottledAxisSupplier;
 import frc.robot.commands.Arm.ArmMoveAtRate;
 import frc.robot.commands.Arm.ArmToLength;
 import frc.robot.commands.Arm.ArmToSetpoint;
+import frc.robot.commands.Arm.EffectorToggle;
+import frc.robot.commands.Arm.ManualArmLengthControlExtend;
+import frc.robot.commands.Arm.ManualArmLengthControlRetract;
 import frc.robot.commands.Drive.BalancingCommand;
 import frc.robot.commands.Drive.DefaultDriveCommand;
 import frc.robot.commands.Drive.DriveRelativeDistance;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.EndEffectorSubsystem;
 import frc.robot.subsystems.ArmSubsystem.ArmSetpoint;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class RobotContainer {
@@ -128,13 +132,14 @@ public class RobotContainer {
   HashMap <String, Command> eventMap = new HashMap<String, Command>();
 
   //create axes
-  ThrottledAxisSupplier rightYAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kX.value, rightJoy, 3, 1.0, -1.0, true, 0.05, true);
-  ThrottledAxisSupplier rightXAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kY.value, rightJoy, 3, 1.0, -1.0, true, 0.05, true);
-  ThrottledAxisSupplier rightZAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kZ.value,  rightJoy, 3, 1.0, -1.0, true, 0.05, true);
+  ThrottledAxisSupplier rightYAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kX.value, rightJoy, 3, 1.0, -1.0, true, 0.05,  true);
+  ThrottledAxisSupplier rightXAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kY.value, rightJoy, 3, 1.0, -1.0, true, 0.05,  true);
+  ThrottledAxisSupplier rightZAxis = new ThrottledAxisSupplier(rightJoy, AxisType.kZ.value, rightJoy, 3, 1.0, -1.0, true, 0.05,  true);
 
   //Instantiate Subsystems
   DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
   ArmSubsystem arm = new ArmSubsystem();
+  EndEffectorSubsystem effector = new EndEffectorSubsystem();
 
   public RobotContainer() {
     //NOTE: Mapping is now done in DefualtDriveCommand
@@ -150,13 +155,13 @@ public class RobotContainer {
   // Joysticks
     rBottom.onTrue(Commands.runOnce(drivetrain::resetOdometry, drivetrain));
     rOutside.onTrue(new BalancingCommand(drivetrain));
-    rTrigger.whileTrue(new DriveRelativeDistance(drivetrain, 1.0, 0, 0));
+    rTrigger.whileTrue(new EffectorToggle(effector));
   // Gamepad
     //gamepadL1.whileTrue(new AllignToTarget(drivetrain, Limelight.limelight1));
     //gamepadR1.onTrue(new TogglePipeline(Limelight.limelight1));
   //Driver Station
-    dsArmControlExtend.onTrue(new ArmToLength(arm.getCurrentArmLength().next(), arm));
-    dsArmControlRetract.onTrue(new ArmToLength(arm.getCurrentArmLength().previous(), arm)); 
+    dsArmControlExtend.onTrue(new ManualArmLengthControlExtend(arm));
+    dsArmControlRetract.onTrue(new ManualArmLengthControlRetract(arm));
 
     dsArmAngleControlPositive.whileTrue(new ArmMoveAtRate(50.0, arm));
     dsArmAngleControlNegative.whileTrue(new ArmMoveAtRate(-50.0, arm));

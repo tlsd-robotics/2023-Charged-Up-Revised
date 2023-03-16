@@ -58,6 +58,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
     }
+    SmartDashboard.putNumber("Current X Command: ", speeds.vxMetersPerSecond);
+    SmartDashboard.putNumber("Current Y Command: ", speeds.vyMetersPerSecond);
+    SmartDashboard.putNumber("Current Z Command: ", speeds.omegaRadiansPerSecond);
   }
 
   public void drive(ChassisSpeeds speeds) {

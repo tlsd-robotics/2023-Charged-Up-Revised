@@ -26,14 +26,14 @@ public class ArmToAngle extends CommandBase {
   @Override
   public void initialize() {
     arm.enabled();
-    if (arm.getCurrentArmLength().AngleInValidRange(angleDegrees)) {
+    //if (arm.getCurrentArmLength().AngleInValidRange(angleDegrees)) {
       arm.setAngle(angleDegrees);
       SmartDashboard.putBoolean("Angle Saftey Triggered: ", false);
-    }
-    else {
+    //}
+    //else {
       //angleDegrees = arm.getAngleSetpoint();
-      SmartDashboard.putBoolean("Angle Saftey Triggered: ", true);
-    }
+      //SmartDashboard.putBoolean("Angle Saftey Triggered: ", true);
+    //}
   }
 
   // Called every time the scheduler runs while the command is scheduled.

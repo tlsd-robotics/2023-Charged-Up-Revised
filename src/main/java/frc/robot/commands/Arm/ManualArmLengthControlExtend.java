@@ -4,39 +4,29 @@
 
 package frc.robot.commands.Arm;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ArmSubsystem.ArmLength;
 
-public class ArmMoveAtRate extends CommandBase {
-  /** Creates a new ArmMoveAtRate. */
-  Timer timer = new Timer();
-  double rateDegreesPerSecond;
+public class ManualArmLengthControlExtend extends CommandBase {
+  /** Creates a new ManualArmLengthControlExtend. */
+
   ArmSubsystem arm;
-  double intialAngle;
-  public ArmMoveAtRate(double rateDegreesPerSecond, ArmSubsystem arm) {
-    this.rateDegreesPerSecond = rateDegreesPerSecond;
+
+  public ManualArmLengthControlExtend(ArmSubsystem arm) {
     this.arm = arm;
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intialAngle = arm.getAngleSetpoint();
-    timer.reset();
-    timer.start();
-    arm.enabled();
+    CommandScheduler.getInstance().schedule(new ArmToLength(arm.getCurrentArmLength().next(), arm));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    CommandScheduler.getInstance().schedule(new ArmToAngle((intialAngle + (timer.get() * rateDegreesPerSecond)), arm));
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -45,6 +35,6 @@ public class ArmMoveAtRate extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

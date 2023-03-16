@@ -1,11 +1,12 @@
 package frc.robot.commands.Drive;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
-
-import java.util.function.DoubleSupplier;
 
 public class DefaultDriveCommand extends CommandBase {
 
@@ -51,8 +52,12 @@ public class DefaultDriveCommand extends CommandBase {
                         m_translationYSupplier.getAsDouble() * Constants.Swerve.maxSpeed,
                         m_rotationSupplier.getAsDouble() * Constants.Swerve.maxAngularVelocity,
                         drivetrain.getPose().getRotation()
-                )
+                )     
         );
+
+        SmartDashboard.putNumber("Current Z Input: ", m_rotationSupplier.getAsDouble());
+        SmartDashboard.putNumber("Current Y Input: ", m_translationYSupplier.getAsDouble());
+        SmartDashboard.putNumber("Current X Input: ", m_translationXSupplier.getAsDouble());
     }
 //When Command ends, set motors to zero so it doesn't drive off into the sunset forever.
     @Override

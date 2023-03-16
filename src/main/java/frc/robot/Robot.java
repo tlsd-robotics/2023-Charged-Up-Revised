@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 
     powerhub.clearStickyFaults();
 
-    pneumaticHub.disableCompressor();
+    pneumaticHub.enableCompressorDigital();
   }
 
   @Override

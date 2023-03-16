@@ -34,6 +34,7 @@ public class ThrottledAxisSupplier implements DoubleSupplier {
         throttleMax = ThrottleMax;
         squared = Squared;
         deadzone = Deadzone;
+        this.inverted = inverted;
     }
     
     public double getAsDouble () {

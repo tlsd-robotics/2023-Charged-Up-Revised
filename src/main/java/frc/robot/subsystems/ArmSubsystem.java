@@ -28,10 +28,10 @@ public class ArmSubsystem extends SubsystemBase {
   private MotorControllerGroup angleMotors = new MotorControllerGroup(left, right);
 
   private DutyCycleEncoder encoder = new DutyCycleEncoder(0);
-  final double ENCODER_OFFSET = 62.3;
+  final double ENCODER_OFFSET = 55.85;
 
   private ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);
-  private PIDController pid = new PIDController(.05, 0, 0);
+  private PIDController pid = new PIDController(.03, 0, 0);
 
   private DigitalInput armLimitSwitchFront = new DigitalInput(1);
   private DigitalInput armLimitSwitchRear = new DigitalInput(2);
@@ -39,8 +39,8 @@ public class ArmSubsystem extends SubsystemBase {
   private double targetAngle;
   private boolean angleControlEnabled = false;
 
-  DoubleSolenoid lowerCylinders = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 1, 15);
-  DoubleSolenoid upperCylinders = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 2, 14);
+  DoubleSolenoid lowerCylinders = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 1, 14);
+  DoubleSolenoid upperCylinders = new DoubleSolenoid(3, PneumaticsModuleType.REVPH, 2, 13);
 
   public enum ArmSetpoint {
 
@@ -64,8 +64,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   public enum ArmLength {
     RETRACTED(new double[][] {{-48.4, 241.2}}),
-    LOWER_EXTENDED(new double[][] {{-40, 200}}),
-    UPPER_EXTENDED(new double[][] {{-35, 50}, {120, 220}}),
+    LOWER_EXTENDED(new double[][] {{-44.25, 200}}),
+    UPPER_EXTENDED(new double[][] {{-35, 220}}),
     FULLY_EXTENDED(new double[][] {{-30, 40}, {140, 190}});
 
     private static final ArmLength[] vals = ArmLength.values();
