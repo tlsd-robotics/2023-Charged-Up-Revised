@@ -7,6 +7,7 @@ package frc.robot.commands.Arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmLength;
 
 public class ManualArmLengthControlExtend extends CommandBase {
   /** Creates a new ManualArmLengthControlExtend. */
@@ -21,7 +22,8 @@ public class ManualArmLengthControlExtend extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    CommandScheduler.getInstance().schedule(new ArmToLength(arm.getCurrentArmLength().next(), arm));
+       CommandScheduler.getInstance().schedule(new ArmToLength(arm.getCurrentArmLength().next(), arm));
+   
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -50,7 +50,7 @@ public class DefaultDriveCommand extends CommandBase {
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         m_translationXSupplier.getAsDouble() * Constants.Swerve.maxSpeed,
                         m_translationYSupplier.getAsDouble() * Constants.Swerve.maxSpeed,
-                        m_rotationSupplier.getAsDouble() * Constants.Swerve.maxAngularVelocity,
+                        m_rotationSupplier.getAsDouble() * Constants.Swerve.maxAngularVelocity * 0.4,
                         drivetrain.getPose().getRotation()
                 )     
         );

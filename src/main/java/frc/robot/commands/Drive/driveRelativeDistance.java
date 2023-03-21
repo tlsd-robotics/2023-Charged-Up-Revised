@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
-public class DriveRelativeDistance extends CommandBase {
+public class driveRelativeDistance extends CommandBase {
   DrivetrainSubsystem drivetrain;
 
   private final double TOLERANCE_DISTANCE = .1;
@@ -29,7 +29,7 @@ public class DriveRelativeDistance extends CommandBase {
   PIDController pidY = new PIDController(1.5, 0.0, 0.0);
   PIDController pidZ = new PIDController(1.5, 0.0, 0.0);
 
-  public DriveRelativeDistance(DrivetrainSubsystem Drivetrain, double ValX, double ValY, double ValZ) {
+  public driveRelativeDistance(DrivetrainSubsystem Drivetrain, double ValX, double ValY, double ValZ) {
     this.drivetrain = Drivetrain;
     this.valX = ValX;
     this.valY = ValY;

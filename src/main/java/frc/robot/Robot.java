@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CameraServerJNI;
+import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -13,6 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Autonomous.BasicAuto;
+import frc.robot.commands.Autonomous.BasicAutoMidCone;
 import frc.robot.commands.Autonomous.DoNothing;
 
 public class Robot extends TimedRobot {
@@ -23,19 +28,25 @@ public class Robot extends TimedRobot {
 
   public static SendableChooser<Command> sendablechooser = new SendableChooser<Command>();
   private Command m_autonomousCommand;
+  RobotContainer m_robotContainer;
 
   @Override
   public void robotInit() {
-    RobotContainer m_robotContainer = new RobotContainer();
+    m_robotContainer = new RobotContainer();
     m_robotContainer.removeNotUsedError();
 
     sendablechooser.setDefaultOption("Do nothing", new DoNothing());
     sendablechooser.addOption("Path Auto", m_robotContainer.autoBuilder.fullAuto(PathPlanner.loadPathGroup("testPath", 4, 3)));
+    sendablechooser.addOption("Low Cube Auto", new BasicAuto(m_robotContainer.arm, m_robotContainer.effector, m_robotContainer.autoBuilder.fullAuto(PathPlanner.loadPathGroup("straight", 4, 3))));
+    sendablechooser.addOption("Mid Cone Auto", new BasicAutoMidCone(m_robotContainer.arm, m_robotContainer.effector, m_robotContainer.autoBuilder.fullAuto(PathPlanner.loadPathGroup("straight", 4, 3))));
     SmartDashboard.putData("Autonomous", sendablechooser);
 
     powerhub.clearStickyFaults();
 
     pneumaticHub.enableCompressorDigital();
+
+    CameraServer.startAutomaticCapture("USB_CAM0", 0);
+
   }
 
   @Override
@@ -54,6 +65,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+
+    m_robotContainer.drivetrain.resetEncoders();
+
     m_autonomousCommand = sendablechooser.getSelected();
 
     if (m_autonomousCommand != null) {

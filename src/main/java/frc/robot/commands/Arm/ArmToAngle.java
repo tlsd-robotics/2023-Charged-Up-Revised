@@ -13,7 +13,7 @@ public class ArmToAngle extends CommandBase {
   /** Creates a new ArmToSetpoint. */
   double angleDegrees;
   ArmSubsystem arm;
-  final double ANGLE_TOLERANCE = 1;
+  final double ANGLE_TOLERANCE = 2;
   final int STABLE_INTERATIONS = 15;
   int inRangeIterations = 0;
   public ArmToAngle(double angleDegrees, ArmSubsystem arm) {
@@ -26,14 +26,14 @@ public class ArmToAngle extends CommandBase {
   @Override
   public void initialize() {
     arm.enabled();
-    //if (arm.getCurrentArmLength().AngleInValidRange(angleDegrees)) {
+    if (arm.getCurrentArmLength().AngleInValidRange(angleDegrees)) {
       arm.setAngle(angleDegrees);
       SmartDashboard.putBoolean("Angle Saftey Triggered: ", false);
-    //}
-    //else {
-      //angleDegrees = arm.getAngleSetpoint();
-      //SmartDashboard.putBoolean("Angle Saftey Triggered: ", true);
-    //}
+    }
+    else {
+      angleDegrees = arm.getAngleSetpoint();
+      SmartDashboard.putBoolean("Angle Saftey Triggered: ", true);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

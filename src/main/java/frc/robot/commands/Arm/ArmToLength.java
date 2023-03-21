@@ -13,11 +13,12 @@ import frc.robot.subsystems.ArmSubsystem.ArmLength;
 public class ArmToLength extends CommandBase {
   /** Creates a new ArmToLength. */
 
-  private final int TRANSITION_TIME_SECONDS = 1;
+  private final double TRANSITION_TIME_SECONDS = 1;
 
   ArmLength length;
   ArmSubsystem arm;
   Timer timer = new Timer();
+  boolean finished = false;
   public ArmToLength(ArmLength length, ArmSubsystem arm) {
     this.length = length;
     this.arm = arm;
@@ -31,13 +32,18 @@ public class ArmToLength extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
-    //if (length.AngleInValidRange(arm.getAngleSetpoint()) && length.AngleInValidRange(arm.getEncoderAngle())) {
+    finished = false;
+    if (length == arm.getCurrentArmLength()) { //if already at the target, no need to delay.
+      finished = true;
+      return;
+    }
+    if (length.AngleInValidRange(arm.getAngleSetpoint()) && length.AngleInValidRange(arm.getEncoderAngle())) {
       arm.setArmLength(length);
       SmartDashboard.putBoolean("Length Saftey Triggered: ", false);
-    //}
-    //else {
+    }
+    else {
       SmartDashboard.putBoolean("Length Saftey Triggered: ", true);
-    //}
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,6 +57,6 @@ public class ArmToLength extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= TRANSITION_TIME_SECONDS;
+    return finished || (timer.get() >= TRANSITION_TIME_SECONDS);
   }
 }

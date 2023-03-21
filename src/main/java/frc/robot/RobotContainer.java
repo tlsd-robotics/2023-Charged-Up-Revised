@@ -34,12 +34,13 @@ import frc.robot.commands.Arm.ManualArmLengthControlExtend;
 import frc.robot.commands.Arm.ManualArmLengthControlRetract;
 import frc.robot.commands.Drive.BalancingCommand;
 import frc.robot.commands.Drive.DefaultDriveCommand;
-import frc.robot.commands.Drive.DriveRelativeDistance;
 import frc.robot.commands.Drive.DriveToRelativeDisplacement;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.EndEffectorSubsystem;
+import frc.robot.subsystems.ArmSubsystem.ArmLength;
 import frc.robot.subsystems.ArmSubsystem.ArmSetpoint;
+import frc.robot.commands.Arm.tempArmToSetpoint;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class RobotContainer {
 
@@ -156,6 +157,7 @@ public class RobotContainer {
     rBottom.onTrue(Commands.runOnce(drivetrain::resetOdometry, drivetrain));
     rOutside.onTrue(new BalancingCommand(drivetrain));
     rTrigger.whileTrue(new EffectorToggle(effector));
+    rInside.onTrue(Commands.runOnce(drivetrain::resetEncoders, drivetrain));
   // Gamepad
     //gamepadL1.whileTrue(new AllignToTarget(drivetrain, Limelight.limelight1));
     //gamepadR1.onTrue(new TogglePipeline(Limelight.limelight1));
@@ -166,14 +168,24 @@ public class RobotContainer {
     dsArmAngleControlPositive.whileTrue(new ArmMoveAtRate(50.0, arm));
     dsArmAngleControlNegative.whileTrue(new ArmMoveAtRate(-50.0, arm));
 
-    dsLeftOne.onTrue(new ArmToSetpoint(ArmSetpoint.UPPER_CONE, arm));
+    /* dsLeftOne.onTrue(new ArmToSetpoint(ArmSetpoint.UPPER_CONE, arm));
     dsLeftTwo.onTrue(new ArmToSetpoint(ArmSetpoint.UPPER_CUBE, arm));
     dsLeftThree.onTrue(new ArmToSetpoint(ArmSetpoint.MID_CONE, arm));
     dsLeftFour.onTrue(new ArmToSetpoint(ArmSetpoint.MID_CUBE, arm));
     dsRightOne.onTrue(new ArmToSetpoint(ArmSetpoint.SUBSTATION, arm));
     dsRightTwo.onTrue(new ArmToSetpoint(ArmSetpoint.FRONT_FLOOR, arm));
     dsRightThree.onTrue(new ArmToSetpoint(ArmSetpoint.REAR_FLOOR, arm));
-    dsRightFour.onTrue(new ArmToSetpoint(ArmSetpoint.RETRACTED, arm));
+    dsRightFour.onTrue(new ArmToSetpoint(ArmSetpoint.RETRACTED, arm)); */
+
+    dsLeftOne.onTrue(new tempArmToSetpoint(ArmSetpoint.UPPER_CONE.angleDegrees, ArmSetpoint.UPPER_CONE.length, arm));
+    dsLeftTwo.onTrue(new tempArmToSetpoint(ArmSetpoint.UPPER_CUBE.angleDegrees, ArmSetpoint.UPPER_CUBE.length, arm));
+    dsLeftThree.onTrue(new tempArmToSetpoint(ArmSetpoint.MID_CONE.angleDegrees, ArmSetpoint.MID_CONE.length, arm));
+    dsLeftFour.onTrue(new tempArmToSetpoint(ArmSetpoint.MID_CUBE.angleDegrees, ArmSetpoint.MID_CUBE.length, arm));
+    dsRightOne.onTrue(new tempArmToSetpoint(ArmSetpoint.SUBSTATION.angleDegrees, ArmSetpoint.SUBSTATION.length, arm));
+    dsRightTwo.onTrue(new tempArmToSetpoint(ArmSetpoint.FRONT_FLOOR.angleDegrees, ArmSetpoint.FRONT_FLOOR.length, arm));
+    //dsRightThree.onTrue(new tempArmToSetpoint(ArmSetpoint.REAR_FLOOR.angleDegrees, ArmSetpoint.REAR_FLOOR.length, arm));
+    dsRightFour.onTrue(new tempArmToSetpoint(ArmSetpoint.RETRACTED.angleDegrees, ArmSetpoint.RETRACTED.length, arm));
+   
   }
 
   //==================== Path Following Event Map ========================

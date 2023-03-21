@@ -60,6 +60,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     }
     SmartDashboard.putNumber("Current X Command: ", speeds.vxMetersPerSecond);
     SmartDashboard.putNumber("Current Y Command: ", speeds.vyMetersPerSecond);
+
     SmartDashboard.putNumber("Current Z Command: ", speeds.omegaRadiansPerSecond);
   }
 
@@ -98,6 +99,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
       states[mod.moduleNumber] = mod.getState();
     }
     return states;
+  }
+
+  public void resetEncoders() {
+    for (SwerveModule mod : mSwerveMods) {
+      mod.resetToAbsolute();
+    }
   }
 
   public void zeroGyro() {

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Arm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.EndEffectorSubsystem;
 
@@ -12,6 +13,10 @@ public class EffectorToState extends CommandBase {
 
   EndEffectorSubsystem effector;
   Boolean isOpen;
+
+  private final double TRANSITION_TIME_SECONDS = 1;
+
+  Timer timer = new Timer();
 
   public EffectorToState(boolean isOpen, EndEffectorSubsystem effector) {
     this.isOpen = isOpen;
@@ -23,6 +28,8 @@ public class EffectorToState extends CommandBase {
   @Override
   public void initialize() {
     effector.setOpen(isOpen);
+    timer.reset();
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +43,6 @@ public class EffectorToState extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return timer.get() >= TRANSITION_TIME_SECONDS;
   }
 }

@@ -45,13 +45,13 @@ public class ArmSubsystem extends SubsystemBase {
   public enum ArmSetpoint {
 
     RETRACTED(-48.4, ArmLength.RETRACTED),
-    FRONT_FLOOR(-40, ArmLength.RETRACTED),
-    REAR_FLOOR(70, ArmLength.RETRACTED),
-    MID_CUBE(180, ArmLength.RETRACTED),
-    MID_CONE(175, ArmLength.RETRACTED),
-    UPPER_CUBE(170, ArmLength.RETRACTED),
-    UPPER_CONE(165, ArmLength.RETRACTED),
-    SUBSTATION(170, ArmLength.RETRACTED);
+    FRONT_FLOOR(-36.5, ArmLength.FULLY_EXTENDED),
+    REAR_FLOOR(164, ArmLength.UPPER_EXTENDED),
+    MID_CUBE(9.6, ArmLength.FULLY_EXTENDED),
+    MID_CONE(15.1, ArmLength.FULLY_EXTENDED),
+    UPPER_CUBE(158, ArmLength.FULLY_EXTENDED),
+    UPPER_CONE(147, ArmLength.FULLY_EXTENDED),
+    SUBSTATION(16, ArmLength.UPPER_EXTENDED);
   
     public final double angleDegrees;
     public final ArmLength length;
@@ -65,8 +65,8 @@ public class ArmSubsystem extends SubsystemBase {
   public enum ArmLength {
     RETRACTED(new double[][] {{-48.4, 241.2}}),
     LOWER_EXTENDED(new double[][] {{-44.25, 200}}),
-    UPPER_EXTENDED(new double[][] {{-35, 220}}),
-    FULLY_EXTENDED(new double[][] {{-30, 40}, {140, 190}});
+    UPPER_EXTENDED(new double[][] {{-44.6, 220}}),
+    FULLY_EXTENDED(new double[][] {{-41, 190}});
 
     private static final ArmLength[] vals = ArmLength.values();
 
@@ -86,7 +86,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public ArmLength next() {
-      return vals[(this.ordinal() < vals.length) ? (this.ordinal() + 1) : (this.ordinal())];
+      return vals[(this.ordinal() < vals.length - 1) ? (this.ordinal() + 1) : (this.ordinal())];
     }
 
     public ArmLength previous() {
@@ -165,17 +165,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     if (angleControlEnabled) {
       double motorSpeed = pid.calculate(getEncoderAngle(), targetAngle) + feedForward.calculate(Math.toRadians(targetAngle), 1);
-      //if (armLimitSwitchFront.get() && (motorSpeed < 0)) {
-      //  angleMotors.set(0);
-      //  return;
-      //}
-      //else if (armLimitSwitchRear.get() && (motorSpeed > 0)) {
-      //  angleMotors.set(0);
-      //  return;
-      //}
-      //else {
         angleMotors.set(motorSpeed);
-      //}
     }
     else {
       angleMotors.set(0);
