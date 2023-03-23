@@ -31,7 +31,7 @@ public class ArmSubsystem extends SubsystemBase {
   final double ENCODER_OFFSET = 55.85;
 
   private ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);
-  private PIDController pid = new PIDController(.03, 0, 0);
+  private PIDController pid = new PIDController(.03, 0, 0.0005);
 
   private DigitalInput armLimitSwitchFront = new DigitalInput(1);
   private DigitalInput armLimitSwitchRear = new DigitalInput(2);

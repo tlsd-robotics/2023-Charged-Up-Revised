@@ -185,6 +185,7 @@ public class RobotContainer {
     dsRightTwo.onTrue(new tempArmToSetpoint(ArmSetpoint.FRONT_FLOOR.angleDegrees, ArmSetpoint.FRONT_FLOOR.length, arm));
     //dsRightThree.onTrue(new tempArmToSetpoint(ArmSetpoint.REAR_FLOOR.angleDegrees, ArmSetpoint.REAR_FLOOR.length, arm));
     dsRightFour.onTrue(new tempArmToSetpoint(ArmSetpoint.RETRACTED.angleDegrees, ArmSetpoint.RETRACTED.length, arm));
+    dsSmallTop.onTrue(new EffectorToggle(effector));
    
   }
 

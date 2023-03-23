@@ -145,8 +145,8 @@ public final class Constants {
     public static final boolean invertGyro = true; // Always ensure Gyro is CCW+ CW-
 
     /* Drivetrain Constants */
-    public static final double trackWidth = Units.inchesToMeters(20);
-    public static final double wheelBase = Units.inchesToMeters(24);
+    public static final double trackWidth = Units.inchesToMeters(16);
+    public static final double wheelBase = Units.inchesToMeters(20);
     public static final double wheelDiameter = Units.inchesToMeters(4.0);
     public static final double wheelCircumference = wheelDiameter * Math.PI;
 
@@ -168,7 +168,7 @@ public final class Constants {
 
     /* Swerve Current Limiting */
     public static final int angleContinuousCurrentLimit = 20;
-    public static final int driveContinuousCurrentLimit = 80;
+    public static final int driveContinuousCurrentLimit = 40; //default 80
 
     /* Angle Motor PID Values */
     public static final double angleKP = 0.01;
