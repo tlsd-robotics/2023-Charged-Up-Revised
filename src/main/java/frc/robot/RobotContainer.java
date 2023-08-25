@@ -71,7 +71,7 @@ public class RobotContainer {
   public static final int GamepadSelect = 8;
 
   //Button Board
-  public static final int driverStationID = 2;
+  public static final int driverStationID = 1;
   public static final int dsLeftOneID = 9;
   public static final int dsLeftTwoID = 10;
   public static final int dsLeftThreeID = 11;
