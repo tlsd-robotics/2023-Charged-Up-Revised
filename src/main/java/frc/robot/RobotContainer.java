@@ -46,32 +46,39 @@ public class RobotContainer {
 
 //====================== CONTROLLER CONSTANTS ===============================
   //Joystick - ID Values - Can be found in DriverStation under the USB tab
-  public static final int rightJoystickID = 0;
-  public static final int leftJoystickID = 1;
+  public static final int rightJoystickID = 1;
+  // public static final int leftJoystickID = 1;
   //Joystick Buttons
   public static final int JoystickTriggerR = 1;
-  public static final int JoystickTriggerL = 1;
-  public static final int JoystickLeftInside = 4;
+  // public static final int JoystickTriggerL = 1;
+  // public static final int JoystickLeftInside = 4;
   public static final int JoystickRightInside = 3;
   public static final int JoystickRightOutside = 4;
-  public static final int JoystickLeftOutside = 3;
+  // public static final int JoystickLeftOutside = 3;
   public static final int JoystickRightBottom = 2;
-  public static final int JoystickLeftBottom = 2;
+  // public static final int JoystickLeftBottom = 2;
   //Gamepad
-  public static final int gamepadID = 3;
+  public static final int gamepadID = 0;
   //Gamepad Buttons
-  public static final int GamepadA = 1;
-  public static final int GamepadB = 2;
-  public static final int GamepadX = 3;
+  public static final int GamepadA = 2;
+  public static final int GamepadB = 3;
+  public static final int GamepadX = 1;
   public static final int GamepadY = 4;
   public static final int GamepadL1 = 5;
   public static final int GamepadR1 = 6;          
   public static final int GamepadR3 = 9;
   public static final int GamepadL3 = 10;
   public static final int GamepadSelect = 8;
+  public static final int GamepadLeftTrigger = 7;
+  public static final int GamepadRightTrigger = 8;
+
+
+
+
+
 
   //Button Board
-  public static final int driverStationID = 1;
+  public static final int driverStationID = 2;
   public static final int dsLeftOneID = 9;
   public static final int dsLeftTwoID = 10;
   public static final int dsLeftThreeID = 11;
@@ -86,20 +93,20 @@ public class RobotContainer {
 //=============================================================================
 
   //Joystick - Creates joystick objects using the ID number from constants and the Joystick class 
-  public final Joystick leftJoy = new Joystick(leftJoystickID);
+  // public final Joystick leftJoy = new Joystick(leftJoystickID);
   public final static Joystick rightJoy = new Joystick(rightJoystickID);
   public final Joystick gamepad = new Joystick(gamepadID);
   public final Joystick driverStation = new Joystick(driverStationID);
 
   //Joystick button - Declares the names for each of the joystick buttons 
   public JoystickButton rTrigger = new JoystickButton(rightJoy, JoystickTriggerR);
-  public JoystickButton lTrigger = new JoystickButton(leftJoy, JoystickTriggerL);
-  public JoystickButton lInside = new JoystickButton(leftJoy, JoystickLeftInside);
+  // public JoystickButton lTrigger = new JoystickButton(leftJoy, JoystickTriggerL);
+  // public JoystickButton lInside = new JoystickButton(leftJoy, JoystickLeftInside);
   public JoystickButton rInside = new JoystickButton(rightJoy, JoystickRightInside);
-  public JoystickButton lOutside = new JoystickButton(leftJoy, JoystickLeftOutside);
+  // public JoystickButton lOutside = new JoystickButton(leftJoy, JoystickLeftOutside);
   public JoystickButton rOutside = new JoystickButton(rightJoy, JoystickRightOutside);
   public JoystickButton rBottom = new JoystickButton(rightJoy, JoystickRightBottom);
-  public JoystickButton lBottom = new JoystickButton(leftJoy, JoystickLeftBottom);
+  // public JoystickButton lBottom = new JoystickButton(leftJoy, JoystickLeftBottom);
 
   //GamePad - Declares the names for each of the gamepad buttons
   public JoystickButton gamepadX = new JoystickButton(gamepad, GamepadX);
@@ -112,6 +119,9 @@ public class RobotContainer {
   public JoystickButton gamepadR1 = new JoystickButton(gamepad, GamepadR1);
   public JoystickButton gamepadR3 = new JoystickButton(gamepad, GamepadR3);
   public JoystickButton gamepadL3 = new JoystickButton(gamepad, GamepadL3);
+  public JoystickButton gamepadLeftTrigger = new JoystickButton(gamepad, GamepadLeftTrigger);
+  public JoystickButton gamepadRightTrigger = new JoystickButton(gamepad, GamepadRightTrigger);
+  
 
   //Driver Station Button Objects
   public JoystickButton dsLeftOne =     new JoystickButton(driverStation, dsLeftOneID);
@@ -186,6 +196,22 @@ public class RobotContainer {
     //dsRightThree.onTrue(new tempArmToSetpoint(ArmSetpoint.REAR_FLOOR.angleDegrees, ArmSetpoint.REAR_FLOOR.length, arm));
     dsRightFour.onTrue(new tempArmToSetpoint(ArmSetpoint.RETRACTED.angleDegrees, ArmSetpoint.RETRACTED.length, arm));
     dsSmallTop.onTrue(new EffectorToggle(effector));
+
+    gamepadL1.onTrue(new tempArmToSetpoint(ArmSetpoint.UPPER_CONE.angleDegrees, ArmSetpoint.UPPER_CONE.length, arm));
+    gamepadR1.onTrue(new tempArmToSetpoint(ArmSetpoint.UPPER_CUBE.angleDegrees, ArmSetpoint.UPPER_CUBE.length, arm));
+    gamepadX.onTrue(new tempArmToSetpoint(ArmSetpoint.SUBSTATION.angleDegrees, ArmSetpoint.SUBSTATION.length, arm));
+    gamepadLeftTrigger.onTrue(new tempArmToSetpoint(ArmSetpoint.MID_CONE.angleDegrees, ArmSetpoint.MID_CONE.length, arm));
+    gamepadRightTrigger.onTrue(new tempArmToSetpoint(ArmSetpoint.MID_CUBE.angleDegrees, ArmSetpoint.MID_CUBE.length, arm));
+   gamepadY .onTrue(new tempArmToSetpoint(ArmSetpoint.FRONT_FLOOR.angleDegrees, ArmSetpoint.FRONT_FLOOR.length, arm));
+    //dsRightThree.onTrue(new tempArmToSetpoint(ArmSetpoint.REAR_FLOOR.angleDegrees, ArmSetpoint.REAR_FLOOR.length, arm));
+    gamepadB.onTrue(new tempArmToSetpoint(ArmSetpoint.RETRACTED.angleDegrees, ArmSetpoint.RETRACTED.length, arm));
+    gamepadA.onTrue(new EffectorToggle(effector));
+
+
+
+
+
+
    
   }
 
